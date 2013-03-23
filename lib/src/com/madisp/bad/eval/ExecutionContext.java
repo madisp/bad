@@ -14,5 +14,5 @@ public interface ExecutionContext {
 	boolean coerceToBool(Object var);
 	String coerceToString(Object var);
 	BadVar getBadVar(String identifier);
-
+	void addWatcher(Watcher w);
 }

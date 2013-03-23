@@ -1,13 +1,14 @@
 package com.madisp.bad.demo;
 
+import android.widget.Toast;
 import com.madisp.bad.lib.BadFragment;
 import com.madisp.bad.lib.BadVar;
 
-public class MainFragment extends BadFragment {
+public class LoginFragment extends BadFragment {
 	public BadVar<String> usernameError = new BadVar<String>();
 
-	public MainFragment() {
-		super(R.layout.main);
+	public LoginFragment() {
+		super(R.layout.login);
 	}
 
 	public boolean validateUser(String username) {
@@ -19,6 +20,7 @@ public class MainFragment extends BadFragment {
 	}
 
 	public void signIn(String username, String password) {
+		Toast.makeText(getActivity(), String.format("Logged in as %s", username), Toast.LENGTH_SHORT).show();
 		getActivity().finish();
 	}
 }

@@ -2,10 +2,13 @@ package com.madisp.bad.lib;
 
 import android.text.TextUtils;
 import com.madisp.bad.eval.ExecutionContext;
+import com.madisp.bad.eval.Expression;
+import com.madisp.bad.eval.Watcher;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -19,9 +22,22 @@ public class BadExecutionContext implements ExecutionContext {
 	private Object base;
 
 	private Map<String, BadVar> internalVars = new HashMap<String, BadVar>();
+	private LinkedList<Watcher> watchmen = new LinkedList<Watcher>();
 
 	public BadExecutionContext(Object base) {
 		this.base = base;
+	}
+
+	public void rebase(Object newBase) {
+		base = newBase;
+		// refire vars
+		for (Watcher w : watchmen) {
+			w.fire();
+		}
+	}
+
+	public void addWatcher(Watcher w) {
+		this.watchmen.add(w);
 	}
 
 	public BadVar getBadVar(String identifier) {
@@ -53,12 +69,20 @@ public class BadExecutionContext implements ExecutionContext {
 
 	@Override
 	public Object getVar(String identifier) {
+		if ("this".equals(identifier)) {
+			return base;
+		}
+		BadVar bv;
+		if ((bv = internalVars.get(identifier)) != null) {
+			return bv.get();
+		}
 		for (Field f : base.getClass().getDeclaredFields()) {
 			if (f.getName().equals(identifier)) {
 				try {
 					Object o = f.get(base);
 					if (o instanceof BadVar) {
 						// automatically box out of badvars
+						internalVars.put(identifier, (BadVar)o);
 						return ((BadVar)o).get();
 					}
 					return o; // warn

@@ -2,8 +2,11 @@ package com.madisp.bad.lib;
 
 import android.os.Handler;
 import android.os.Looper;
+import com.madisp.bad.eval.Watcher;
 
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,16 +30,19 @@ public class BadVar<T> {
 	}
 
 	public void set(T value) {
+		if (value instanceof List) {
+			value = (T)BadCollections.wrapList(this, (List)value);
+		} else if (value instanceof Collection) {
+			value = (T)BadCollections.wrapCollection(this, (Collection)value);
+		}
 		this.var = value;
-		final BadVar me = this;
-		uiHandler.post(new Runnable() {
-			@Override
-			public void run() {
-				for (BadWatcher w : watchers) {
-					w.fire(me);
-				}
-			}
-		});
+		dispatchFire();
+	}
+
+	public void dispatchFire() {
+		for (BadWatcher w : watchers) {
+			w.fire(BadVar.this);
+		}
 	}
 
 	public void addWatcher(BadWatcher<T> watcher) {

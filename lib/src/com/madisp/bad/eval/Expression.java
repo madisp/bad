@@ -11,7 +11,4 @@ public interface Expression {
 	String toString();
 	void addWatcher(ExecutionContext ctx, Watcher w);
 
-	public interface Watcher {
-		void fire();
-	}
 }

@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<!-- edittext -->
 	<attr name="model" format="string"/>
 	<attr name="error" format="string"/>
+	<!-- textview -->
+	<attr name="text" format="string" />
+	<!-- button... should be view maybe? -->
 	<attr name="enabled" format="string"/>
 	<attr name="click" format="string"/>
+	<!-- listview -->
+	<attr name="items" format="string"/>
+	<attr name="itemClick" format="string"/>
+	<attr name="itemLayout" format="reference" />
 </resources>

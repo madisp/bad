@@ -37,5 +37,6 @@ public class VarExpression implements Expression {
 				}
 			});
 		}
+		ctx.addWatcher(w); // watch for context rebase ops
 	}
 }

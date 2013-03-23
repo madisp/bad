@@ -19,11 +19,12 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		View v = new FrameLayout(this);
 		v.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-		v.setId(1);
+		v.setId(R.id.mainContainer);
 		setContentView(v);
 
+
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		ft.add(1, new MainFragment());
+		ft.add(R.id.mainContainer, new ListFragment());
 		ft.commit();
 	}
 }
