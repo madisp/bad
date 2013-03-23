@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:bad="http://schemas.android.com/apk/res/com.madisp.bad.demo"
-	android:orientation="vertical"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:padding="16dp">
+              xmlns:bad="http://schemas.android.com/apk/res/com.madisp.bad.demo"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="16dp">
 
 	<EditText
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="8dp"
-		android:hint="Username"
+		android:hint="@string/hint_user"
 		bad:error="usernameError"
 		bad:model="username" />
 
@@ -19,14 +19,14 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="8dp"
-		android:hint="Password"
+		android:hint="@string/hint_password"
 		bad:model="password" />
 
 	<Button
 		android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="Sign in"
-	    bad:enabled="username and password"
+		android:layout_height="wrap_content"
+		android:text="@string/btn_signin"
+		bad:enabled="username and password"
 		bad:click="validateUser(username) and signIn(username, password)" />
 
 </LinearLayout>

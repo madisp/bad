@@ -2,4 +2,7 @@
 <resources>
 	<string name="app_name">demo</string>
 	<string name="user_error">Hey! You aren\'t madis!</string>
+	<string name="hint_user">Username</string>
+	<string name="hint_password">Password</string>
+	<string name="btn_signin">Sign in</string>
 </resources>
