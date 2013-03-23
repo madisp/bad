@@ -7,7 +7,7 @@
           android:minHeight="?android:listPreferredItemHeight"
           android:textAppearance="?android:textAppearanceLarge"
           android:gravity="left|center_vertical"
-          android:padding="8dp"
+          android:padding="16dp"
           bad:text="this">
 
 </TextView>

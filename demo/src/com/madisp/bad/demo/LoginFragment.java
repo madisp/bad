@@ -21,6 +21,6 @@ public class LoginFragment extends BadFragment {
 
 	public void signIn(String username, String password) {
 		Toast.makeText(getActivity(), String.format("Logged in as %s", username), Toast.LENGTH_SHORT).show();
-		getActivity().finish();
+		getFragmentManager().popBackStack();
 	}
 }

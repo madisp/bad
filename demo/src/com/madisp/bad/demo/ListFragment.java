@@ -1,6 +1,8 @@
 package com.madisp.bad.demo;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 import com.madisp.bad.lib.BadFragment;
 import com.madisp.bad.lib.BadVar;
@@ -20,15 +22,18 @@ public class ListFragment extends BadFragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-//		items.set(Arrays.asList(getResources().getStringArray(R.array.demoFragments)));
-		List<String> strings = new ArrayList<String>();
-		for (int i = 0; i < 200; i++) {
-			strings.add("Item " + (i+1));
-		}
-		items.set(strings);
+		items.set(Arrays.asList(getResources().getStringArray(R.array.demoFragments)));
 	}
 
-	public void navigate(String frag) {
-		Toast.makeText(getActivity(), String.format("Clicked on frag %s", frag), Toast.LENGTH_SHORT).show();
+	public void navigate(String fragName) {
+		try {
+			Fragment fragment = (Fragment) (Class.forName("com.madisp.bad.demo." + fragName).newInstance());
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			ft.replace(R.id.mainContainer, fragment, fragName);
+			ft.addToBackStack(null);
+			ft.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
