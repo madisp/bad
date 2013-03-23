@@ -12,6 +12,14 @@
 bin/
 gen/
 
+# IDEA stuff
+*.iml
+.idea
+out
+
+# Gradle stuff
+build
+
 # Local configuration file (sdk path, etc)
 local.properties
 
