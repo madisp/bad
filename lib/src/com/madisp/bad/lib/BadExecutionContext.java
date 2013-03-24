@@ -83,12 +83,14 @@ public class BadExecutionContext implements ExecutionContext {
 					Object o = f.get(base);
 					if (o instanceof BadVar) {
 						// automatically box out of badvars
+						// maybe do this in coercion instead?
 						internalVars.put(identifier, (BadVar)o);
 						return ((BadVar)o).get();
 					}
 					return o; // warn
 				} catch (Exception e) {
 					// warn
+					e.printStackTrace();
 				}
 				break;
 			}
@@ -115,6 +117,7 @@ public class BadExecutionContext implements ExecutionContext {
 			}
 		} catch (Exception e) {
 			System.out.println("Warn: " + e.getMessage());
+			e.printStackTrace();
 		}
 		return null;
 	}

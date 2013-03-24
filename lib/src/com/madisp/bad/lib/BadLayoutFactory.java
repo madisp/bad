@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Checkable;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -177,6 +178,25 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 						adapter.notifyDataSetChanged();
 					}
 				});
+			}
+		}
+		if (fv instanceof Checkable) {
+			int[] attrKeys = {R.attr.checked};
+			TypedArray arr = context.getResources().obtainAttributes(attrs, attrKeys);
+			for (int i = 0; i < arr.length(); i++) {
+				if (arr.hasValue(i)) {
+					arr.getValue(i, out);
+					if (attrKeys[i] == R.attr.checked) {
+						final Expression expr = expressionFactory.buildExpression(out.string.toString());
+						expr.addWatcher(exec, new Watcher() {
+							@Override
+							public void fire() {
+								((Checkable) fv).setChecked(exec.coerceToBool(expr.value(exec)));
+							}
+						});
+						((Checkable) fv).setChecked(exec.coerceToBool(expr.value(exec)));
+					}
+				}
 			}
 		}
 		v.setTag(R.id.tagExecContext, exec);

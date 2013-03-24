@@ -12,4 +12,6 @@
 	<attr name="items" format="string"/>
 	<attr name="itemClick" format="string"/>
 	<attr name="itemLayout" format="reference" />
+	<!-- checkable -->
+	<attr name="checked" format="string"/>
 </resources>

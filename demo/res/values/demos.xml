@@ -2,11 +2,14 @@
 <resources>
 	<string-array name="demoFragments">
 		<item>LoginFragment</item>
+		<item>ShopFragment</item>
 	</string-array>
 	<string-array name="demoNames">
 		<item>Login</item>
+		<item>Shopping List</item>
 	</string-array>
 	<string-array name="demoDescs">
 		<item>Simple form validation</item>
+		<item>List with checkable elements</item>
 	</string-array>
 </resources>
