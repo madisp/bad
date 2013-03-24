@@ -3,4 +3,10 @@
 	<string-array name="demoFragments">
 		<item>LoginFragment</item>
 	</string-array>
+	<string-array name="demoNames">
+		<item>Login</item>
+	</string-array>
+	<string-array name="demoDescs">
+		<item>Simple form validation</item>
+	</string-array>
 </resources>

@@ -30,7 +30,7 @@ public class BadExecutionContext implements ExecutionContext {
 
 	public void rebase(Object newBase) {
 		base = newBase;
-		// refire vars
+		// refire
 		for (Watcher w : watchmen) {
 			w.fire();
 		}
@@ -73,7 +73,8 @@ public class BadExecutionContext implements ExecutionContext {
 			return base;
 		}
 		BadVar bv;
-		if ((bv = internalVars.get(identifier)) != null) {
+		// check if we have a field instead of the autoboxed var
+		if ((bv = internalVars.get(identifier)) != null && bv.get() != null) {
 			return bv.get();
 		}
 		for (Field f : base.getClass().getDeclaredFields()) {
