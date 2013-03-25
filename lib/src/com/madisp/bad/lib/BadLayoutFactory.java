@@ -86,7 +86,7 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 						final Expression expr = expressionFactory.buildExpression(out.string.toString());
 						expr.addWatcher(exec, new Watcher() {
 							@Override
-							public void fire() {
+							public void fire(ExecutionContext exec) {
 								((EditText) fv).setError(exec.coerceToString(expr.value(exec)));
 							}
 						});
@@ -106,7 +106,7 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 						final Expression expr = expressionFactory.buildExpression(out.string.toString());
 						expr.addWatcher(exec, new Watcher() {
 							@Override
-							public void fire() {
+							public void fire(ExecutionContext exec) {
 								((TextView) fv).setText(exec.coerceToString(expr.value(exec)));
 							}
 						});
@@ -133,7 +133,7 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 						final Expression expr = expressionFactory.buildExpression(out.string.toString());
 						expr.addWatcher(exec, new Watcher() {
 							@Override
-							public void fire() {
+							public void fire(ExecutionContext exec) {
 								fv.setEnabled(exec.coerceToBool(expr.value(exec)));
 							}
 						});
@@ -174,7 +174,7 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 				((ListView)fv).setAdapter(adapter);
 				expr.addWatcher(exec, new Watcher() {
 					@Override
-					public void fire() {
+					public void fire(ExecutionContext exec) {
 						adapter.notifyDataSetChanged();
 					}
 				});
@@ -190,8 +190,11 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 						final Expression expr = expressionFactory.buildExpression(out.string.toString());
 						expr.addWatcher(exec, new Watcher() {
 							@Override
-							public void fire() {
-								((Checkable) fv).setChecked(exec.coerceToBool(expr.value(exec)));
+							public void fire(ExecutionContext exec) {
+								Object obj = expr.value(exec);
+								boolean bol = exec.coerceToBool(obj);
+								((Checkable) fv).setChecked(bol);
+
 							}
 						});
 						((Checkable) fv).setChecked(exec.coerceToBool(expr.value(exec)));

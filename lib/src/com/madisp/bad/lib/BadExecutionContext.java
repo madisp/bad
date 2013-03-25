@@ -32,7 +32,7 @@ public class BadExecutionContext implements ExecutionContext {
 		base = newBase;
 		// refire
 		for (Watcher w : watchmen) {
-			w.fire();
+			w.fire(this);
 		}
 	}
 
@@ -57,6 +57,7 @@ public class BadExecutionContext implements ExecutionContext {
 					// warn that obj isn't badvar
 				} catch (Exception e) {
 					// warn that obj isn't accessible
+					e.printStackTrace();
 				}
 				break;
 			}

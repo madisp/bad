@@ -33,7 +33,7 @@ public class VarExpression implements Expression {
 			bv.addWatcher(new BadVar.BadWatcher() {
 				@Override
 				public void fire(BadVar var) {
-					w.fire();
+					w.fire(ctx);
 				}
 			});
 		}
