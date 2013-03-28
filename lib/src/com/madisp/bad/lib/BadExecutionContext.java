@@ -209,6 +209,16 @@ public class BadExecutionContext implements ExecutionContext {
 		return null;
 	}
 
+	@Override
+	public int integer(Object var) {
+		if (var instanceof Integer) {
+			return (Integer)var;
+		} else if (var instanceof String) {
+			return Integer.valueOf((String)var);
+		}
+		return 0;
+	}
+
 	// convenience methods
 
 	@Override

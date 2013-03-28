@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class ShopFragment extends BadFragment {
 	public BadVar<List<Item>> items = new BadVar<List<Item>>();
-	public BadVar<String> newItem = new BadVar<String>();
 
 	public class Item {
 		public String name;
@@ -34,11 +33,6 @@ public class ShopFragment extends BadFragment {
 		super.onCreate(savedInstanceState);
 		items.set(new ArrayList<Item>());
 	}
-//
-//	public void toggle(Item item) {
-//		item.checked = !item.checked;
-//		items.dispatchFire(); // can I get around this?
-//	}
 
 	public void add(String name) {
 		items.get().add(new Item(name));

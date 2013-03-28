@@ -39,7 +39,7 @@ public class BadCollections {
 			public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 				Object ret = method.invoke(collection, args);
 				if (collectionMutators.contains(method.getName())) {
-					var.dispatchFire();
+					var.dispatchFire(false);
 				}
 				return ret;
 			}
@@ -52,7 +52,7 @@ public class BadCollections {
 			public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 				Object ret = method.invoke(list, args);
 				if (listMutators.contains(method.getName())) {
-					var.dispatchFire();
+					var.dispatchFire(false);
 				}
 				return ret;
 			}

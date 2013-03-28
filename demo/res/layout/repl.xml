@@ -10,9 +10,9 @@
 		android:layout_width="match_parent"
 		android:layout_height="0px"
 		android:layout_weight="1"
-		bad:items="items"
-		bad:itemLayout="@layout/shop_item"
-		bad:itemClick="$item.checked = !$item.checked">
+		android:transcriptMode="alwaysScroll"
+		bad:items="log"
+		bad:itemLayout="@layout/log_item">
 	</ListView>
 	<LinearLayout
 		android:layout_height="wrap_content"
@@ -25,16 +25,17 @@
 		    android:layout_height="wrap_content"
 		    android:layout_weight="1"
 		    android:layout_gravity="center_vertical"
-			android:hint="New item"
-			bad:model="newItem" />
+			android:hint="Type something"
+			bad:imeAction="run(script); script = &quot;&quot;; true"
+			bad:model="script" />
 
 		<Button
 			android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_gravity="center_vertical"
-		    android:text="Add"
-		    bad:enabled="newItem"
-		    bad:click="add(newItem); newItem = &quot;&quot;"
+		    android:text="Run"
+		    bad:enabled="script"
+		    bad:click="run(script); script = &quot;&quot;"
 			android:layout_marginLeft="8dp"/>
 
 	</LinearLayout>

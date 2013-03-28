@@ -6,8 +6,10 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Checkable;
@@ -20,8 +22,6 @@ import com.madisp.bad.eval.ExpressionFactory;
 import com.madisp.bad.eval.Watcher;
 import com.madisp.bad.lib.ui.BadAdapter;
 import com.madisp.bad.lib.ui.BadTextWatcher;
-
-import java.util.List;
 
 public class BadLayoutFactory implements LayoutInflater.Factory {
 	private LayoutInflater inflater;
@@ -75,15 +75,41 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 			/* magic happens here */
 		TypedValue out = new TypedValue();
 		if (fv instanceof EditText) {
-			int[] attrKeys = {R.attr.model, R.attr.error};
+			final EditText et = (EditText)fv;
+			int[] attrKeys = {R.attr.model, R.attr.error, R.attr.imeAction};
 			TypedArray arr = context.getResources().obtainAttributes(attrs, attrKeys);
 			for (int i = 0; i < arr.length(); i++) {
 				if (arr.hasValue(i)) {
 					arr.getValue(i, out);
-					if (attrKeys[i] == R.attr.model) {
+					if (attrKeys[i] == R.attr.imeAction) {
+						final Expression expr = expressionFactory.buildExpression(out.string.toString());
+						((EditText)fv).setOnEditorActionListener(new TextView.OnEditorActionListener() {
+							@Override
+							public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+								if (actionId == EditorInfo.IME_NULL && KeyEvent.ACTION_DOWN == event.getAction()) {
+									return exec.bool(expr.value(exec));
+								}
+								return false;
+							}
+						});
+//						v.setOnClickListener(new View.OnClickListener() {
+//							@Override
+//							public void onClick(View v) {
+//								expr.value(exec);
+//							}
+//						});
+					} else if (attrKeys[i] == R.attr.model) {
 						Object var = exec.getVar(out.string.toString());
 						if (var instanceof BadVar) {
 							((EditText) v).addTextChangedListener(new BadTextWatcher((BadVar)var));
+							((BadVar) var).addWatcher(new BadVar.BadWatcher() {
+								@Override
+								public void fire(BadVar var, boolean selfChange) {
+									if (!selfChange) {
+										((EditText)fv).setText(var.get().toString());
+									}
+								}
+							});
 						}
 					} else if (attrKeys[i] == R.attr.error) {
 						final Expression expr = expressionFactory.buildExpression(out.string.toString());

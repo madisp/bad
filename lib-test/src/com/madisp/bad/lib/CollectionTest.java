@@ -3,7 +3,6 @@ package com.madisp.bad.lib;
 import android.test.AndroidTestCase;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -18,7 +17,7 @@ public class CollectionTest extends AndroidTestCase {
 		BadVar<List<String>> var = new BadVar<List<String>>();
 		var.addWatcher(new BadVar.BadWatcher<List<String>>() {
 			@Override
-			public void fire(BadVar<List<String>> var) {
+			public void fire(BadVar<List<String>> var, boolean selfChange) {
 				fires[0]++;
 			}
 		});

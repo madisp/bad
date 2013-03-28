@@ -3,6 +3,8 @@
 	<!-- edittext -->
 	<attr name="model" format="string"/>
 	<attr name="error" format="string"/>
+	<attr name="imeAction" format="string"/>
+	<attr name="imeActionLabel" format="string"/>
 	<!-- textview -->
 	<attr name="text" format="string" />
 	<!-- button... should be view maybe? -->

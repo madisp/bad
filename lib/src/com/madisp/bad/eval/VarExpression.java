@@ -50,7 +50,7 @@ public class VarExpression extends BasableExpression {
 		if (o instanceof BadVar) {
 			((BadVar)o).addWatcher(new BadVar.BadWatcher() {
 				@Override
-				public void fire(BadVar var) {
+				public void fire(BadVar var, boolean selfChange) {
 					w.fire(ctx);
 				}
 			});

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:bad="http://schemas.android.com/apk/res/com.madisp.bad.demo"
+	android:paddingLeft="16dp"
+	android:paddingBottom="8dp"
+	android:paddingTop="8dp"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:textAppearance="?android:textAppearanceSmall"
+		android:gravity="left"
+		bad:text="this" />
+</LinearLayout>
