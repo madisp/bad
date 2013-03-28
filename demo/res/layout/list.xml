@@ -6,5 +6,5 @@
           android:layout_height="match_parent"
 	bad:items="items"
 	bad:itemLayout="@layout/list_item"
-	bad:itemClick="navigate(item)">
+	bad:itemClick="navigate($item)">
 </ListView>

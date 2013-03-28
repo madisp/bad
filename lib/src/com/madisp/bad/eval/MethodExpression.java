@@ -21,7 +21,7 @@ public class MethodExpression extends BasableExpression {
 	public Object value(ExecutionContext ctx) {
 		Object[] argvalues = new Object[args.length];
 		for (int i = 0; i < argvalues.length; i++) {
-			argvalues[i] = args[i].value(ctx);
+			argvalues[i] = ctx.object(args[i].value(ctx));
 		}
 		if (!hasBase()) {
 			return ctx.callMethod(m, argvalues);

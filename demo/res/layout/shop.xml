@@ -12,7 +12,7 @@
 		android:layout_weight="1"
 		bad:items="items"
 		bad:itemLayout="@layout/shop_item"
-		bad:itemClick="toggle(item)">
+		bad:itemClick="$item.checked = !$item.checked">
 	</ListView>
 	<LinearLayout
 		android:layout_height="wrap_content"

@@ -19,7 +19,7 @@ public class ShopFragment extends BadFragment {
 
 	public class Item {
 		public String name;
-		public boolean checked = false;
+		public BadVar<Boolean> checked = new BadVar<Boolean>();
 		public Item(String name) {
 			this.name = name;
 		}
@@ -34,11 +34,11 @@ public class ShopFragment extends BadFragment {
 		super.onCreate(savedInstanceState);
 		items.set(new ArrayList<Item>());
 	}
-
-	public void toggle(Item item) {
-		item.checked = !item.checked;
-		items.dispatchFire(); // can I get around this?
-	}
+//
+//	public void toggle(Item item) {
+//		item.checked = !item.checked;
+//		items.dispatchFire(); // can I get around this?
+//	}
 
 	public void add(String name) {
 		items.get().add(new Item(name));

@@ -173,7 +173,7 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 			}
 			if (layout != -1 && !TextUtils.isEmpty(itemsExpr)) {
 				final Expression expr = expressionFactory.buildExpression(itemsExpr);
-				final BadAdapter adapter = new BadAdapter(layout, this, (List)expr.value(exec));
+				final BadAdapter adapter = new BadAdapter(layout, this, exec.list(expr.value(exec)));
 				((ListView)fv).setAdapter(adapter);
 				expr.addWatcher(exec, new Watcher() {
 					@Override

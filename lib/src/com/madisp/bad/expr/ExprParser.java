@@ -16,11 +16,12 @@ public class ExprParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__3=1, T__2=2, T__1=3, T__0=4, STRING=5, NOT=6, AND=7, ASSIGN=8, OR=9, 
-		INT=10, TRUE=11, FALSE=12, NULL=13, IDENTIFIER=14, ESCAPE=15, WS=16, DOT=17;
+		INT=10, TRUE=11, FALSE=12, NULL=13, IDENTIFIER=14, ESCAPE=15, DOLLAR=16, 
+		WS=17, DOT=18;
 	public static final String[] tokenNames = {
 		"<INVALID>", "')'", "','", "'('", "';'", "STRING", "'!'", "'and'", "'='", 
 		"'or'", "INT", "'true'", "'false'", "'null'", "IDENTIFIER", "ESCAPE", 
-		"WS", "'.'"
+		"'$'", "WS", "'.'"
 	};
 	public static final int
 		RULE_line = 0, RULE_prog = 1, RULE_expr = 2, RULE_value = 3, RULE_constant = 4, 
@@ -615,7 +616,7 @@ public class ExprParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\2\3\23[\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t"+
+		"\2\3\24[\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t"+
 		"\t\4\n\t\n\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\5\3\35\n\3\3\4\3\4\3\4\3\4"+
 		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4,\n\4\3\4\3\4\3\4\3\4\3\4\3\4"+
 		"\7\4\64\n\4\f\4\16\4\67\13\4\3\5\3\5\3\5\5\5<\n\5\3\5\3\5\3\5\7\5A\n\5"+
@@ -631,7 +632,7 @@ public class ExprParser extends Parser {
 		"\t\2\2/\64\5\6\4\2\60\61\6\4\3\3\61\62\7\13\2\2\62\64\5\6\4\2\63-\3\2"+
 		"\2\2\63\60\3\2\2\2\64\67\3\2\2\2\65\63\3\2\2\2\65\66\3\2\2\2\66\7\3\2"+
 		"\2\2\67\65\3\2\2\289\b\5\1\29<\5\16\b\2:<\5\f\7\2;8\3\2\2\2;:\3\2\2\2"+
-		"<B\3\2\2\2=>\6\5\4\3>?\7\23\2\2?A\5\b\5\2@=\3\2\2\2AD\3\2\2\2B@\3\2\2"+
+		"<B\3\2\2\2=>\6\5\4\3>?\7\24\2\2?A\5\b\5\2@=\3\2\2\2AD\3\2\2\2B@\3\2\2"+
 		"\2BC\3\2\2\2C\t\3\2\2\2DB\3\2\2\2EH\5\22\n\2FH\7\7\2\2GE\3\2\2\2GF\3\2"+
 		"\2\2H\13\3\2\2\2IJ\t\2\2\2J\r\3\2\2\2KL\7\20\2\2LM\7\5\2\2MN\5\20\t\2"+
 		"NO\7\3\2\2O\17\3\2\2\2PQ\5\6\4\2QR\7\4\2\2RS\5\20\t\2SW\3\2\2\2TW\5\6"+

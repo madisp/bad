@@ -54,7 +54,7 @@ INT: DIGIT+;
 TRUE: 'true';
 FALSE: 'false';
 NULL: 'null';
-IDENTIFIER: ALPHA (ALPHANUMERIC)*;
+IDENTIFIER: (ALPHA|DOLLAR) (ALPHANUMERIC)*;
 
 ESCAPE: '\\' ('\\' | '"');
 
@@ -72,6 +72,8 @@ UNDERS: '_';
 
 fragment
 ALPHA: (UPPERC|LOWERC|UNDERS);
+
+DOLLAR: '$';
 
 fragment
 ALPHANUMERIC: (UPPERC|LOWERC|UNDERS|DIGIT);
