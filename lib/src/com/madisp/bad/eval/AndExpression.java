@@ -16,7 +16,7 @@ public class AndExpression implements Expression {
 
 	@Override
 	public Object value(ExecutionContext ctx) {
-		return ctx.coerceToBool(left.value(ctx)) && ctx.coerceToBool(right.value(ctx));
+		return ctx.bool(left.value(ctx)) && ctx.bool(right.value(ctx));
 	}
 
 	@Override

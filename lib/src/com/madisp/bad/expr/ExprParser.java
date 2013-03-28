@@ -139,7 +139,7 @@ public class ExprParser extends Parser {
 		public int _p;
 		public ExprContext left;
 		public ExprContext center;
-		public VariableContext leftVar;
+		public ValueContext leftVar;
 		public ExprContext right;
 		public ConstantContext constant() {
 			return getRuleContext(ConstantContext.class,0);
@@ -154,9 +154,6 @@ public class ExprParser extends Parser {
 		}
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
-		}
-		public VariableContext variable() {
-			return getRuleContext(VariableContext.class,0);
 		}
 		public TerminalNode OR() { return getToken(ExprParser.OR, 0); }
 		public TerminalNode ASSIGN() { return getToken(ExprParser.ASSIGN, 0); }
@@ -195,7 +192,7 @@ public class ExprParser extends Parser {
 
 			case 2:
 				{
-				setState(31); ((ExprContext)_localctx).leftVar = variable();
+				setState(31); ((ExprContext)_localctx).leftVar = value(0);
 				setState(32); match(ASSIGN);
 				setState(33); ((ExprContext)_localctx).right = expr(4);
 				}
@@ -628,7 +625,7 @@ public class ExprParser extends Parser {
 		"\fI\3\2\2\2\16K\3\2\2\2\20V\3\2\2\2\22X\3\2\2\2\24\25\5\4\3\2\25\26\7"+
 		"\1\2\2\26\3\3\2\2\2\27\30\5\6\4\2\30\31\7\6\2\2\31\32\5\4\3\2\32\35\3"+
 		"\2\2\2\33\35\5\6\4\2\34\27\3\2\2\2\34\33\3\2\2\2\35\5\3\2\2\2\36\37\b"+
-		"\4\1\2\37 \7\b\2\2 ,\5\6\4\2!\"\5\f\7\2\"#\7\n\2\2#$\5\6\4\2$,\3\2\2\2"+
+		"\4\1\2\37 \7\b\2\2 ,\5\6\4\2!\"\5\b\5\2\"#\7\n\2\2#$\5\6\4\2$,\3\2\2\2"+
 		"%&\7\5\2\2&\'\5\6\4\2\'(\7\3\2\2(,\3\2\2\2),\5\b\5\2*,\5\n\6\2+\36\3\2"+
 		"\2\2+!\3\2\2\2+%\3\2\2\2+)\3\2\2\2+*\3\2\2\2,\65\3\2\2\2-.\6\4\2\3./\7"+
 		"\t\2\2/\64\5\6\4\2\60\61\6\4\3\3\61\62\7\13\2\2\62\64\5\6\4\2\63-\3\2"+

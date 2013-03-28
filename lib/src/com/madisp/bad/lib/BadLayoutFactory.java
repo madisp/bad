@@ -81,16 +81,19 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 				if (arr.hasValue(i)) {
 					arr.getValue(i, out);
 					if (attrKeys[i] == R.attr.model) {
-						((EditText) v).addTextChangedListener(new BadTextWatcher(exec.getBadVar(out.string.toString())));
+						Object var = exec.getVar(out.string.toString());
+						if (var instanceof BadVar) {
+							((EditText) v).addTextChangedListener(new BadTextWatcher((BadVar)var));
+						}
 					} else if (attrKeys[i] == R.attr.error) {
 						final Expression expr = expressionFactory.buildExpression(out.string.toString());
 						expr.addWatcher(exec, new Watcher() {
 							@Override
 							public void fire(ExecutionContext exec) {
-								((EditText) fv).setError(exec.coerceToString(expr.value(exec)));
+								((EditText) fv).setError(exec.string(expr.value(exec)));
 							}
 						});
-						((EditText) fv).setError(exec.coerceToString(expr.value(exec)));
+						((EditText) fv).setError(exec.string(expr.value(exec)));
 					}
 				}
 			}
@@ -107,10 +110,10 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 						expr.addWatcher(exec, new Watcher() {
 							@Override
 							public void fire(ExecutionContext exec) {
-								((TextView) fv).setText(exec.coerceToString(expr.value(exec)));
+								((TextView) fv).setText(exec.string(expr.value(exec)));
 							}
 						});
-						((TextView) fv).setText(exec.coerceToString(expr.value(exec)));
+						((TextView) fv).setText(exec.string(expr.value(exec)));
 					}
 				}
 			}
@@ -134,10 +137,10 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 						expr.addWatcher(exec, new Watcher() {
 							@Override
 							public void fire(ExecutionContext exec) {
-								fv.setEnabled(exec.coerceToBool(expr.value(exec)));
+								fv.setEnabled(exec.bool(expr.value(exec)));
 							}
 						});
-						fv.setEnabled(exec.coerceToBool(expr.value(exec)));
+						fv.setEnabled(exec.bool(expr.value(exec)));
 					}
 				}
 			}
@@ -161,7 +164,7 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 						((ListView)fv).setOnItemClickListener(new AdapterView.OnItemClickListener() {
 							@Override
 							public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-								exec.getBadVar("item").set(parent.getItemAtPosition(position));
+								((BadVar)exec.getVar("$item")).set(parent.getItemAtPosition(position));
 								expr.value(exec); // don't care about return
 							}
 						});
@@ -192,12 +195,12 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 							@Override
 							public void fire(ExecutionContext exec) {
 								Object obj = expr.value(exec);
-								boolean bol = exec.coerceToBool(obj);
+								boolean bol = exec.bool(obj);
 								((Checkable) fv).setChecked(bol);
 
 							}
 						});
-						((Checkable) fv).setChecked(exec.coerceToBool(expr.value(exec)));
+						((Checkable) fv).setChecked(exec.bool(expr.value(exec)));
 					}
 				}
 			}

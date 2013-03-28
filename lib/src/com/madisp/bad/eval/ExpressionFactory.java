@@ -1,5 +1,6 @@
 package com.madisp.bad.eval;
 
+import android.widget.BaseAdapter;
 import com.madisp.bad.expr.ExprBaseVisitor;
 import com.madisp.bad.expr.ExprLexer;
 import com.madisp.bad.expr.ExprParser;
@@ -51,7 +52,11 @@ public class ExpressionFactory extends ExprBaseVisitor<Expression> {
 		} else if (ctx.OR() != null) {
 			return new OrExpression(visitExpr(ctx.left), visitExpr(ctx.right));
 		} else if (ctx.ASSIGN() != null) {
-			return new AssignExpression(visitVariable(ctx.leftVar), visitExpr(ctx.right));
+			BasableExpression left = visitValue(ctx.leftVar);
+			if (left instanceof VarExpression) {
+				return new AssignExpression((VarExpression)left, visitExpr(ctx.right));
+			}
+			throw new RuntimeException("Cannot assign values to " + left.getClass().getSimpleName());
 		} else if (ctx.value() != null) {
 			return visitValue(ctx.value());
 		} else if (ctx.constant() != null) {

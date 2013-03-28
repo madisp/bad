@@ -6,7 +6,7 @@ prog: expr ';' prog
 expr: NOT center=expr
 	| left=expr AND right=expr
 	| left=expr OR right=expr
-	| leftVar=variable ASSIGN right=expr
+	| leftVar=value ASSIGN right=expr
 	| '(' center=expr ')'
 	| value
 	| constant

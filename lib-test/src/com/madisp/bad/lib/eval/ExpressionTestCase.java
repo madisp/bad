@@ -21,7 +21,7 @@ public abstract class ExpressionTestCase extends AndroidTestCase {
 	}
 
 	protected Object eval(String expr) throws Exception {
-		return build(expr).value(bec);
+		return bec.object(build(expr).value(bec));
 	}
 
 	protected Expression build(String expr) throws Exception {

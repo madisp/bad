@@ -15,11 +15,10 @@ public class AssignExpression implements Expression {
 		this.expr = expr;
 	}
 
-
 	@Override
 	public Object value(ExecutionContext ctx) {
 		Object newValue = expr.value(ctx);
-		ctx.setVar(var.getIdentifier(), newValue);
+		ctx.setVar(var.getBase(ctx), var.getIdentifier(), newValue);
 		return newValue;
 	}
 

@@ -14,7 +14,7 @@ public class NotExpression implements Expression {
 
 	@Override
 	public Object value(ExecutionContext ctx) {
-		return !ctx.coerceToBool(expr.value(ctx));
+		return !ctx.bool(expr.value(ctx));
 	}
 
 	@Override

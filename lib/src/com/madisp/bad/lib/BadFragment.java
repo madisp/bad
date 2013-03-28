@@ -33,7 +33,7 @@ public abstract class BadFragment extends Fragment {
 		long start = System.nanoTime();
 		Expression expr = exprFactory.buildExpression("true or false");
 		long mid = System.nanoTime();
-		boolean value = exec.coerceToBool(expr.value(exec));
+		boolean value = exec.bool(expr.value(exec));
 		long end = System.nanoTime();
 		Log.d("BadLib", expr + " = " + value + ", parse bench: " + (mid-start) + "ns tree bench: " + (end-mid));
 	}

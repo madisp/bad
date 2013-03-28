@@ -17,7 +17,7 @@ public class OrExpression implements Expression {
 	@Override
 	public Object value(ExecutionContext ctx) {
 		Object leftVal = left.value(ctx);
-		if (ctx.coerceToBool(leftVal)) {
+		if (ctx.bool(leftVal)) {
 			return leftVal;
 		} else {
 			return right.value(ctx);
