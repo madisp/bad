@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class ShopFragment extends BadFragment {
 	public BadVar<List<Item>> items = new BadVar<List<Item>>();
+	public BadVar<String> newItem = new BadVar<String>();
 
 	public class Item {
 		public String name;

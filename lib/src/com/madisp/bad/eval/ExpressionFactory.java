@@ -26,7 +26,20 @@ public class ExpressionFactory extends ExprBaseVisitor<Expression> {
 
 	@Override
 	public Expression visitLine(ExprParser.LineContext ctx) {
-		return visitExpr(ctx.expr());
+		return visitProg(ctx.prog());
+	}
+
+	@Override
+	public Expression visitProg(ExprParser.ProgContext ctx) {
+		List<Expression> statements = new ArrayList<Expression>();
+		statements.add(visitExpr(ctx.expr()));
+
+		ExprParser.ProgContext prog = ctx.prog();
+		while (prog != null) {
+			statements.add(visitExpr(prog.expr()));
+			prog = prog.prog();
+		}
+		return new StatementList(statements.toArray(new Expression[statements.size()]));
 	}
 
 	@Override
@@ -37,15 +50,19 @@ public class ExpressionFactory extends ExprBaseVisitor<Expression> {
 			return new AndExpression(visitExpr(ctx.left), visitExpr(ctx.right));
 		} else if (ctx.OR() != null) {
 			return new OrExpression(visitExpr(ctx.left), visitExpr(ctx.right));
+		} else if (ctx.ASSIGN() != null) {
+			return new AssignExpression(visitVariable(ctx.leftVar), visitExpr(ctx.right));
 		} else if (ctx.value() != null) {
 			return visitValue(ctx.value());
+		} else if (ctx.constant() != null) {
+			return visitConstant(ctx.constant());
 		} else {
 			return visitExpr(ctx.center);
 		}
 	}
 
 	@Override
-	public Expression visitCall(ExprParser.CallContext ctx) {
+	public MethodExpression visitCall(ExprParser.CallContext ctx) {
 		List<Expression> argsList = new ArrayList<Expression>();
 
 		ExprParser.ArgslistContext args = ctx.argslist();
@@ -58,26 +75,39 @@ public class ExpressionFactory extends ExprBaseVisitor<Expression> {
 	}
 
 	@Override
-	public Expression visitValue(ExprParser.ValueContext ctx) {
+	public VarExpression visitVariable(ExprParser.VariableContext ctx) {
+		return new VarExpression(null, ctx.NULL() != null ? null : ctx.IDENTIFIER().getText());
+	}
+
+	@Override
+	public BasableExpression visitValue(ExprParser.ValueContext ctx) {
+		if (ctx.DOT() != null) {
+			BasableExpression left = visitValue(ctx.left);
+			BasableExpression right = visitValue(ctx.right);
+			right.setBase(left);
+			return right;
+		}
 		if (ctx.call() != null) {
 			return visitCall(ctx.call());
 		} else if (ctx.variable() != null) {
 			return visitVariable(ctx.variable());
-		} else if (ctx.STRING() != null) {
-			return new ConstantExpression(ctx.STRING().getText());
-		} else if (ctx.bool() != null) {
-			return visitBool(ctx.bool());
 		}
 		return null;
 	}
 
 	@Override
-	public Expression visitBool(ExprParser.BoolContext ctx) {
-		return new ConstantExpression(ctx.TRUE() != null);
+	public Expression visitConstant(ExprParser.ConstantContext ctx) {
+		if (ctx.STRING() != null) {
+			return new ConstantExpression(ctx.STRING().getText());
+		} else if (ctx.bool() != null) {
+			return visitBool(ctx.bool());
+		} else {
+			return null;
+		}
 	}
 
 	@Override
-	public Expression visitVariable(ExprParser.VariableContext ctx) {
-		return new VarExpression(ctx.NULL() != null ? null : ctx.IDENTIFIER().getText());
+	public ConstantExpression visitBool(ExprParser.BoolContext ctx) {
+		return new ConstantExpression(ctx.TRUE() != null);
 	}
 }

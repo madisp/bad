@@ -1,16 +1,22 @@
 grammar Expr;
 
-line: expr EOF;
+line: prog EOF;
+prog: expr ';' prog
+	| expr;
 expr: NOT center=expr
 	| left=expr AND right=expr
 	| left=expr OR right=expr
+	| leftVar=variable ASSIGN right=expr
 	| '(' center=expr ')'
-	| value;
-value: variable
-	| call
-	| bool
-    | STRING
+	| value
+	| constant
 	;
+value: left=value DOT right=value
+	| call
+	| variable
+	;
+constant: bool
+	| STRING;
 variable: IDENTIFIER
 	| NULL;
 call: IDENTIFIER '(' argslist ')';
@@ -42,12 +48,13 @@ fragment ESC:
 
 NOT: '!';
 AND: 'and';
+ASSIGN: '=';
 OR: 'or';
 INT: DIGIT+;
 TRUE: 'true';
 FALSE: 'false';
 NULL: 'null';
-IDENTIFIER: ALPHA ALPHANUMERIC*;
+IDENTIFIER: ALPHA (ALPHANUMERIC)*;
 
 ESCAPE: '\\' ('\\' | '"');
 
@@ -69,3 +76,4 @@ ALPHA: (UPPERC|LOWERC|UNDERS);
 fragment
 ALPHANUMERIC: (UPPERC|LOWERC|UNDERS|DIGIT);
 WS: [ \r\t\u000C\n]+ -> skip;
+DOT: '.';

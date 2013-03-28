@@ -7,6 +7,10 @@ import org.antlr.v4.runtime.ParserRuleContext;
 public class ExprBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements ExprVisitor<T> {
 	@Override public T visitCall(ExprParser.CallContext ctx) { return visitChildren(ctx); }
 
+	@Override public T visitProg(ExprParser.ProgContext ctx) { return visitChildren(ctx); }
+
+	@Override public T visitConstant(ExprParser.ConstantContext ctx) { return visitChildren(ctx); }
+
 	@Override public T visitValue(ExprParser.ValueContext ctx) { return visitChildren(ctx); }
 
 	@Override public T visitLine(ExprParser.LineContext ctx) { return visitChildren(ctx); }

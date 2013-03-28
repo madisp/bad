@@ -69,10 +69,38 @@ public class BadExecutionContext implements ExecutionContext {
 	}
 
 	@Override
+	public void setVar(String identifier, Object value) {
+		Field f = getField(identifier);
+		if (f != null) {
+			try {
+				Object o = f.get(this);
+				if (o != null && o instanceof BadVar) {
+					((BadVar)o).set(value);
+					return;
+				}
+				f.set(this, value);
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+		BadVar var = getBadVar(identifier);
+		if (var != null) {
+			var.set(value);
+			return;
+		}
+	}
+
+	@Override
 	public Object getVar(String identifier) {
+		return getVar(base, identifier);
+	}
+
+	@Override
+	public Object getVar(Object base, String identifier) {
 		if ("this".equals(identifier)) {
 			return base;
 		}
+
 		BadVar bv;
 		// check if we have a field instead of the autoboxed var
 		if ((bv = internalVars.get(identifier)) != null && bv.get() != null) {
@@ -99,8 +127,22 @@ public class BadExecutionContext implements ExecutionContext {
 		return getBadVar(identifier).get(); // creates a new var in context
 	}
 
+	private Field getField(String identifier) {
+		for (Field f : base.getClass().getDeclaredFields()) {
+			if (f.getName().equals(identifier)) {
+				return f;
+			}
+		}
+		return null;
+	}
+
 	@Override
 	public Object callMethod(String name, Object... args) {
+		return callMethod(base, name, args);
+	}
+
+	@Override
+	public Object callMethod(Object base, String name, Object... args) {
 		Class[] paramClasses = new Class[args.length];
 		for (int i = 0; i < paramClasses.length; i++) {
 			paramClasses[i] = args[i] == null ? null : args[i].getClass();

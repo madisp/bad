@@ -9,10 +9,17 @@ import com.madisp.bad.lib.BadVar;
  * Time: 2:40 PM
  */
 public interface ExecutionContext {
-	Object getVar(String identifier);
 	Object callMethod(String name, Object... args);
 	boolean coerceToBool(Object var);
 	String coerceToString(Object var);
+
+	// convenience methods
+	Object getVar(String identifier);
+	void setVar(String var, Object newValue);
 	BadVar getBadVar(String identifier);
+
+	Object getVar(Object base, String identifier);
+	Object callMethod(Object base, String m, Object[] argvalues);
+
 	void addWatcher(Watcher w);
 }
