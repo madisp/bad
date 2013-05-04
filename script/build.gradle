@@ -1,0 +1,28 @@
+apply plugin: 'java'
+
+configurations {
+    antlr4
+}
+
+dependencies {
+    antlr4 'org.antlr:antlr4:4.0'
+    compile 'org.antlr:antlr4-runtime:4.0'
+    testCompile 'junit:junit:4.+'
+}
+
+task generateGrammarSources(type: JavaExec) {
+    ext.grammarFiles = fileTree('src/main/grammar').include('**/*.g4')
+    ext.outputPath = "${project.buildDir}/src/main/java"
+    inputs.files grammarFiles
+    outputs.dir outputPath
+    classpath configurations.antlr4
+    main = 'org.antlr.v4.Tool'
+    args('-o')
+    args(ext.outputPath)
+    args('-visitor')
+    args(grammarFiles.files.join(' '))
+}
+
+compileJava.dependsOn generateGrammarSources
+
+project.sourceCompatibility = '1.6'

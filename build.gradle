@@ -1,0 +1,18 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+allprojects {
+    buildscript {
+        project.group = "com.madisp"
+        project.version = System.getProperty("versionName", "$System.env.APP_VERSION")
+        if (project.version == null || project.version.equals("") || project.version.equals("null")) {
+            project.version = "0.0.1"
+        }
+    }
+    repositories {
+        mavenCentral()
+    }
+}
