@@ -16,7 +16,10 @@ value: left=value DOT right=value
 	| variable
 	;
 constant: bool
-	| STRING;
+	| STRING
+	| resource;
+resource: '@' (( pckg ':' )? type=IDENTIFIER '/' name=IDENTIFIER | NULL);
+pckg: IDENTIFIER ('.' IDENTIFIER)*;
 variable: IDENTIFIER
 	| NULL;
 call: IDENTIFIER '(' argslist ')';

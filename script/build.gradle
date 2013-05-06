@@ -11,16 +11,33 @@ dependencies {
 }
 
 task generateGrammarSources(type: JavaExec) {
-    ext.grammarFiles = fileTree('src/main/grammar').include('**/*.g4')
-    ext.outputPath = "${project.buildDir}/src/main/java"
+    ext.grammarFiles = fileTree('src/main/grammar').include('*.g4')
+    ext.outputPath = "src/main/java/com/madisp/bad/parse"
     inputs.files grammarFiles
     outputs.dir outputPath
     classpath configurations.antlr4
     main = 'org.antlr.v4.Tool'
     args('-o')
     args(ext.outputPath)
+    args('-package')
+    args('com.madisp.bad.parse')
     args('-visitor')
+    args('-no-listener')
     args(grammarFiles.files.join(' '))
+}
+
+task grun(type: JavaExec, dependsOn: compileJava) {
+    classpath configurations.antlr4
+    classpath sourceSets.main.output
+    main = 'org.antlr.v4.runtime.misc.TestRig'
+    args("com.madisp.bad.parse.Expr")
+    args("prog")
+    args("-gui")
+    setStandardInput(System.in)
+    doFirst {
+        project.logger.info("Running grun with grammar com.madisp.bad.parse.Expr and rule prog with args -gui")
+        println("Input expression (CTRL+D / EOF to finish):")
+    }
 }
 
 compileJava.dependsOn generateGrammarSources

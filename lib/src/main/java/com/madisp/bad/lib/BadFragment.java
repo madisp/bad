@@ -1,5 +1,6 @@
 package com.madisp.bad.lib;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,16 +21,16 @@ public abstract class BadFragment extends Fragment {
 	private final int layout;
 
 	private ExpressionFactory exprFactory = new ExpressionFactory();
-	private BadExecutionContext exec = new BadExecutionContext(this);
+	private AndroidExecutionContext exec;
 
 	protected BadFragment(int layoutRes) {
 		this.layout = layoutRes;
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		exec = new AndroidExecutionContext(activity, this);
 		// test our shiny grammar
 		long start = System.nanoTime();
 		Expression expr = exprFactory.buildExpression("true or false");

@@ -25,4 +25,6 @@ public interface ExecutionContext {
 	Object callMethod(String name, Object... args);
 
 	void addWatcher(Watcher w);
+
+	int getResourceId(String name);
 }

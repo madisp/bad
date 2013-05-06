@@ -100,11 +100,23 @@ public class ExpressionFactory extends ExprBaseVisitor<Expression> {
 	}
 
 	@Override
+	public Expression visitResource(ExprParser.ResourceContext ctx) {
+		if (ctx.NULL() != null) {
+			// null resources
+			return new ResourceExpression();
+		} else {
+			return new ResourceExpression(ctx.getText().substring(1).trim());
+		}
+	}
+
+	@Override
 	public Expression visitConstant(ExprParser.ConstantContext ctx) {
 		if (ctx.STRING() != null) {
 			return new ConstantExpression(ctx.STRING().getText());
 		} else if (ctx.bool() != null) {
 			return visitBool(ctx.bool());
+		} else if (ctx.resource() != null) {
+			return visitResource(ctx.resource());
 		} else {
 			return null;
 		}

@@ -42,6 +42,11 @@ public class BadExecutionContext implements ExecutionContext {
 		this.watchmen.add(w);
 	}
 
+	@Override
+	public int getResourceId(String name) {
+		return 0;
+	}
+
 //	public BadVar getBadVar(String identifier) {
 //		BadVar bv;
 //		if ((bv = internalVars.get(identifier)) != null) {
@@ -278,4 +283,6 @@ public class BadExecutionContext implements ExecutionContext {
 			return result;
 		}
 	}
+
+
 }
