@@ -9,11 +9,7 @@ import java.util.List;
  * Time: 2:40 PM
  */
 public interface ExecutionContext {
-	boolean bool(Object var);
-	String string(Object var);
-	Object object(Object var);
-	List list(Object var);
-	int integer(Object var);
+	Converter converter();
 
 	void setVar(Object base, String var, Object newValue);
 	Object getVar(Object base, String identifier);

@@ -10,8 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import static com.madisp.bad.eval.Converter.areAssignableFrom;
-import static com.madisp.bad.eval.Converter.isAssignableFrom;
+import static com.madisp.bad.eval.BadConverter.areAssignableFrom;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,6 +21,7 @@ import static com.madisp.bad.eval.Converter.isAssignableFrom;
 // TODO reflection cache
 public class BadExecutionContext implements ExecutionContext {
 	private Object base;
+	private Converter converter = new BadConverter();
 
 	private Map<VarKey, BadVar> internalVars = new HashMap<VarKey, BadVar>();
 	private LinkedList<Watcher> watchmen = new LinkedList<Watcher>();
@@ -169,55 +169,8 @@ public class BadExecutionContext implements ExecutionContext {
 	// converters
 
 	@Override
-	public boolean bool(Object var) {
-		var = object(var);
-		if (var == null) {
-			return false;
-		}
-		if (var instanceof Boolean) {
-			return (Boolean)var;
-		}
-		if (var instanceof CharSequence) {
-			return ((CharSequence) var).length() > 0;
-		}
-		return true;
-	}
-
-	@Override
-	public String string(Object var) {
-		var = object(var);
-		return var == null ? null : var.toString();
-	}
-
-	@Override
-	public Object object(Object var) {
-		if (var instanceof BadVar) {
-			return ((BadVar) var).get();
-		}
-		return var;
-	}
-
-	@Override
-	public List list(Object var) {
-		var = object(var);
-		if (var instanceof List) {
-			return (List)var;
-		} else if (var instanceof Collection) {
-			return Collections.list(Collections.enumeration((Collection)var));
-		} else if (var instanceof Object[]) {
-			return Arrays.asList(var);
-		}
-		return null;
-	}
-
-	@Override
-	public int integer(Object var) {
-		if (var instanceof Integer) {
-			return (Integer)var;
-		} else if (var instanceof String) {
-			return Integer.valueOf((String)var);
-		}
-		return 0;
+	public Converter converter() {
+		return converter;
 	}
 
 	// convenience methods

@@ -4,10 +4,15 @@ line: prog EOF;
 prog: expr ';' prog
 	| expr;
 expr: NOT center=expr
+	| MINUS center=expr
+	| left=expr STAR right=expr
+	| left=expr SLASH right=expr
+	| left=expr PLUS right=expr
+	| left=expr MINUS right=expr
 	| left=expr AND right=expr
 	| left=expr OR right=expr
-	| leftVar=value ASSIGN right=expr
 	| '(' center=expr ')'
+	| leftVar=value ASSIGN right=expr
 	| value
 	| constant
 	;
@@ -17,7 +22,9 @@ value: left=value DOT right=value
 	;
 constant: bool
 	| STRING
-	| resource;
+	| resource
+	| DOUBLE
+	| INT;
 resource: '@' (( pckg ':' )? type=IDENTIFIER '/' name=IDENTIFIER | NULL);
 pckg: IDENTIFIER ('.' IDENTIFIER)*;
 variable: IDENTIFIER
@@ -40,6 +47,10 @@ STRING:
 
 	'"' { setText(getText().substring(1, getText().length() - 1)); };
 
+DOUBLE: INT ('d'|'f')
+	| INT '.' INT ('d'|'f')?
+	;
+
 fragment ESC:
 	'\\'
 	( 't'
@@ -57,6 +68,10 @@ INT: DIGIT+;
 TRUE: 'true';
 FALSE: 'false';
 NULL: 'null';
+PLUS: '+';
+MINUS: '-';
+SLASH: '/';
+STAR: '*';
 IDENTIFIER: (ALPHA|DOLLAR) (ALPHANUMERIC)*;
 
 ESCAPE: '\\' ('\\' | '"');

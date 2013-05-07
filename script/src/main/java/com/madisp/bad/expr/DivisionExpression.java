@@ -6,28 +6,21 @@ import com.madisp.bad.eval.Watcher;
 /**
  * Created with IntelliJ IDEA.
  * User: madis
- * Date: 3/23/13
- * Time: 1:57 PM
+ * Date: 5/7/13
+ * Time: 11:12 AM
  */
-public class AndExpression implements Expression {
-	Expression left;
-	Expression right;
-	public AndExpression(Expression left, Expression right) {
+public class DivisionExpression implements Expression {
+	private final Expression left;
+	private final Expression right;
+
+	public DivisionExpression(Expression left, Expression right) {
 		this.left = left;
 		this.right = right;
 	}
 
 	@Override
 	public Object value(ExecutionContext ctx) {
-		return ctx.converter().bool(left.value(ctx)) && ctx.converter().bool(right.value(ctx));
-	}
-
-	@Override
-	public String toString() {
-		return "AndExpression{" +
-				"left=" + left +
-				", right=" + right +
-				'}';
+		return ctx.converter().integer(left.value(ctx)) / ctx.converter().integer(right.value(ctx));
 	}
 
 	@Override

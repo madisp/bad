@@ -6,28 +6,23 @@ import com.madisp.bad.eval.Watcher;
 /**
  * Created with IntelliJ IDEA.
  * User: madis
- * Date: 3/27/13
- * Time: 7:02 PM
+ * Date: 5/6/13
+ * Time: 2:32 PM
  */
-public class AssignExpression implements Expression {
+public class UnaryMinusExpression implements Expression {
 	private final Expression expr;
-	private final VarExpression var;
 
-	public AssignExpression(VarExpression var, Expression expr) {
-		this.var = var;
+	public UnaryMinusExpression(Expression expr) {
 		this.expr = expr;
 	}
 
 	@Override
 	public Object value(ExecutionContext ctx) {
-		Object newValue = ctx.converter().object(expr.value(ctx));
-		ctx.setVar(var.getBase(ctx), var.getIdentifier(), newValue);
-		return newValue;
+		return -ctx.converter().integer(expr.value(ctx));
 	}
 
 	@Override
 	public void addWatcher(ExecutionContext ctx, Watcher w) {
 		expr.addWatcher(ctx, w);
-		var.addWatcher(ctx, w);
 	}
 }

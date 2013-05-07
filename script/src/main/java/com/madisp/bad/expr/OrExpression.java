@@ -20,7 +20,7 @@ public class OrExpression implements Expression {
 	@Override
 	public Object value(ExecutionContext ctx) {
 		Object leftVal = left.value(ctx);
-		if (ctx.bool(leftVal)) {
+		if (ctx.converter().bool(leftVal)) {
 			return leftVal;
 		} else {
 			return right.value(ctx);

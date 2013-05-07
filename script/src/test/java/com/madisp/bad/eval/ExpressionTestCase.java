@@ -20,7 +20,7 @@ public abstract class ExpressionTestCase {
 	}
 
 	protected Object eval(String expr) throws Exception {
-		return bec.object(build(expr).value(bec));
+		return bec.converter().object(build(expr).value(bec));
 	}
 
 	protected Expression build(String expr) throws Exception {

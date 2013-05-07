@@ -88,7 +88,7 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 							@Override
 							public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 								if (actionId == EditorInfo.IME_NULL && KeyEvent.ACTION_DOWN == event.getAction()) {
-									return exec.bool(expr.value(exec));
+									return exec.converter().bool(expr.value(exec));
 								}
 								return false;
 							}
@@ -117,10 +117,10 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 						expr.addWatcher(exec, new Watcher() {
 							@Override
 							public void fire(ExecutionContext exec) {
-								((EditText) fv).setError(exec.string(expr.value(exec)));
+								((EditText) fv).setError(exec.converter().string(expr.value(exec)));
 							}
 						});
-						((EditText) fv).setError(exec.string(expr.value(exec)));
+						((EditText) fv).setError(exec.converter().string(expr.value(exec)));
 					}
 				}
 			}
@@ -137,10 +137,10 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 						expr.addWatcher(exec, new Watcher() {
 							@Override
 							public void fire(ExecutionContext exec) {
-								((TextView) fv).setText(exec.string(expr.value(exec)));
+								((TextView) fv).setText(exec.converter().string(expr.value(exec)));
 							}
 						});
-						((TextView) fv).setText(exec.string(expr.value(exec)));
+						((TextView) fv).setText(exec.converter().string(expr.value(exec)));
 					}
 				}
 			}
@@ -164,10 +164,10 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 						expr.addWatcher(exec, new Watcher() {
 							@Override
 							public void fire(ExecutionContext exec) {
-								fv.setEnabled(exec.bool(expr.value(exec)));
+								fv.setEnabled(exec.converter().bool(expr.value(exec)));
 							}
 						});
-						fv.setEnabled(exec.bool(expr.value(exec)));
+						fv.setEnabled(exec.converter().bool(expr.value(exec)));
 					}
 				}
 			}
@@ -200,7 +200,7 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 			}
 			if (layout != -1 && !TextUtils.isEmpty(itemsExpr)) {
 				final Expression expr = expressionFactory.buildExpression(itemsExpr);
-				final BadAdapter adapter = new BadAdapter(layout, this, exec.list(expr.value(exec)));
+				final BadAdapter adapter = new BadAdapter(layout, this, exec.converter().list(expr.value(exec)));
 				((ListView) fv).setAdapter(adapter);
 				expr.addWatcher(exec, new Watcher() {
 					@Override
@@ -222,12 +222,12 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 							@Override
 							public void fire(ExecutionContext exec) {
 								Object obj = expr.value(exec);
-								boolean bol = exec.bool(obj);
+								boolean bol = exec.converter().bool(obj);
 								((Checkable) fv).setChecked(bol);
 
 							}
 						});
-						((Checkable) fv).setChecked(exec.bool(expr.value(exec)));
+						((Checkable) fv).setChecked(exec.converter().bool(expr.value(exec)));
 					}
 				}
 			}

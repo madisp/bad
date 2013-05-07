@@ -46,6 +46,16 @@ public class ExpressionFactory extends ExprBaseVisitor<Expression> {
 	public Expression visitExpr(ExprParser.ExprContext ctx) {
 		if (ctx.NOT() != null) {
 			return new NotExpression(visitExpr(ctx.center));
+		} else if (ctx.MINUS() != null && ctx.center != null) {
+			return new UnaryMinusExpression(visitExpr(ctx.center));
+		} else if (ctx.PLUS() != null) {
+			return new PlusExpression(visitExpr(ctx.left), visitExpr(ctx.right));
+		} else if (ctx.MINUS() != null) {
+			return new MinusExpression(visitExpr(ctx.left), visitExpr(ctx.right));
+		} else if (ctx.STAR() != null) {
+			return new MultiplyExpression(visitExpr(ctx.left), visitExpr(ctx.right));
+		} else if (ctx.SLASH() != null) {
+			return new DivisionExpression(visitExpr(ctx.left), visitExpr(ctx.right));
 		} else if (ctx.AND() != null) {
 			return new AndExpression(visitExpr(ctx.left), visitExpr(ctx.right));
 		} else if (ctx.OR() != null) {
@@ -113,6 +123,8 @@ public class ExpressionFactory extends ExprBaseVisitor<Expression> {
 	public Expression visitConstant(ExprParser.ConstantContext ctx) {
 		if (ctx.STRING() != null) {
 			return new ConstantExpression(ctx.STRING().getText());
+		} else if (ctx.INT() != null) {
+			return new ConstantExpression(Integer.valueOf(ctx.INT().getText().trim()));
 		} else if (ctx.bool() != null) {
 			return visitBool(ctx.bool());
 		} else if (ctx.resource() != null) {

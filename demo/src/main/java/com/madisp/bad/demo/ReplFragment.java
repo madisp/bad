@@ -46,7 +46,7 @@ public class ReplFragment extends BadFragment {
 		if (!TextUtils.isEmpty(script)) {
 			Expression expr = factory.buildExpression(script);
 			Log.d("BadDemo", expr.toString());
-			log.get().add(ctx.string(expr.value(ctx)));
+			log.get().add(ctx.converter().string(expr.value(ctx)));
 		}
 	}
 }
