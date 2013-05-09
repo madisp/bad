@@ -36,7 +36,7 @@
 			android:layout_gravity="center_vertical"
 			android:text="Add"
 			bad:enabled="newItem"
-			bad:click="add(newItem); newItem = &quot;&quot;"
+			bad:click="add(newItem); newItem = ''"
 			android:layout_marginLeft="8dp"/>
 
 	</LinearLayout>

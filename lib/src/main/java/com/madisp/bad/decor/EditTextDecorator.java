@@ -40,7 +40,7 @@ public class EditTextDecorator extends BaseDecorator<EditText> {
 					@Override
 					public void fire(BadVar var, boolean selfChange) {
 						if (!selfChange) {
-							view.setText(var.get().toString());
+							view.setText(exec.converter().string(var));
 						}
 					}
 				});

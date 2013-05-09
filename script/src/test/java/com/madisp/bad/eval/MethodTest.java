@@ -19,13 +19,13 @@ public class MethodTest extends ExpressionTestCase{
 
 	@Test
 	public void testIdentities() throws Exception {
-		assertEquals("test", eval("\"test\""));
-		assertEquals("test", eval("stringIdentity(\"test\")"));
+		assertEquals("test", eval("'test'"));
+		assertEquals("test", eval("stringIdentity('test')"));
 	}
 
 	@Test
 	public void testBoxing() throws Exception {
-		assertEquals(5, eval("addTwo(integer(\"3\"))"));
+		assertEquals(5, eval("addTwo(integer('3'))"));
 	}
 
 	// methods for tests

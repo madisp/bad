@@ -24,6 +24,6 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="Set value to asd"
-		bad:click="value = &quot;asd&quot;"/>
+		bad:click="value = 'asd'"/>
 
 </LinearLayout>

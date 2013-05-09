@@ -13,17 +13,17 @@ public class VarTest extends ExpressionTestCase {
 	@Test
 	public void testAssignment() throws Exception {
 		// test assignment
-		eval("a = \"asd\"");
+		eval("a = 'asd'");
 		assertEquals("asd", eval("a"));
 
 		// test multiassignment
-		eval("a = b = c = \"bsd\"");
+		eval("a = b = c = 'bsd'");
 		assertEquals("bsd", eval("a"));
 		assertEquals("bsd", eval("b"));
 		assertEquals("bsd", eval("c"));
 
 		// test multistatement scripts
-		eval("d = \"csd\"; e = \"dsd\"");
+		eval("d = 'csd'; e = 'dsd'");
 		assertEquals("csd", eval("d"));
 		assertEquals("dsd", eval("e"));
 	}

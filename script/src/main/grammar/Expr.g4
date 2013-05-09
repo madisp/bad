@@ -38,13 +38,13 @@ bool: TRUE
 
 
 STRING:
-	'"'
+	'\''
 	(
 	ESC
-	| ~('\\'|'"')
+	| ~('\\'|'\'')
 	)*
 
-	'"' { setText(getText().substring(1, getText().length() - 1)); };
+	'\'' { setText(getText().substring(1, getText().length() - 1)); };
 
 DOUBLE: INT ('d'|'f')
 	| INT '.' INT ('d'|'f')?
@@ -55,7 +55,7 @@ fragment ESC:
 	( 't'
 	| 'n'
 	| 'r'
-	| '"'
+	| '\''
 	| '\\'
 	);
 

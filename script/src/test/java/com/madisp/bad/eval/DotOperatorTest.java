@@ -24,7 +24,7 @@ public class DotOperatorTest extends ExpressionTestCase {
 		assertEquals(null, eval("b.b().lol")); // b() doesn't exist, should return null
 
 		// test deep assignment
-		eval("b.c = \"lol\"");
+		eval("b.c = 'lol'");
 		assertEquals("lol", eval("b.c"));
 	}
 

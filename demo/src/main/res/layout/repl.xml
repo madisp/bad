@@ -28,7 +28,7 @@
 			android:layout_weight="1"
 			android:layout_gravity="center_vertical"
 			android:hint="Type something"
-			bad:imeAction="run(script); script = &quot;&quot;; true"
+			bad:imeAction="run(script); script = ''; true"
 			bad:model="script"/>
 
 		<Button
@@ -37,7 +37,7 @@
 			android:layout_gravity="center_vertical"
 			android:text="Run"
 			bad:enabled="script"
-			bad:click="run(script); script = &quot;&quot;"
+			bad:click="run(script); script = ''"
 			android:layout_marginLeft="8dp"/>
 
 	</LinearLayout>
