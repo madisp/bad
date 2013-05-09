@@ -22,9 +22,10 @@ public class MainActivity extends Activity {
 		v.setId(R.id.mainContainer);
 		setContentView(v);
 
-
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		ft.add(R.id.mainContainer, new ListFragment());
-		ft.commit();
+		if (savedInstanceState == null) {
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			ft.add(R.id.mainContainer, new ListFragment());
+			ft.commit();
+		}
 	}
 }
