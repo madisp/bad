@@ -44,6 +44,10 @@ public abstract class BadFragment extends Fragment {
 		factory.addDecorator(new TextViewDecorator(exec, exprFactory, getActivity()));
 		factory.addDecorator(new ViewDecorator(exec, exprFactory, getActivity()));
 		factory.addDecorator(new ListViewDecorator(exec, exprFactory, getActivity()));
+		// hook to add more decorators before inflation
+		beforeInflate(factory);
 		return factory.getInflater().inflate(layout, null);
 	}
+
+	protected void beforeInflate(BadLayoutFactory factory) {}
 }
