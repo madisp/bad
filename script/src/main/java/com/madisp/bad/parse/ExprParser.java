@@ -674,13 +674,21 @@ public class ExprParser extends Parser {
 	public final CallContext call() throws RecognitionException {
 		CallContext _localctx = new CallContext(_ctx, getState());
 		enterRule(_localctx, 16, RULE_call);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(114); match(IDENTIFIER);
 			setState(115); match(3);
-			setState(116); argslist();
-			setState(117); match(1);
+			setState(117);
+			_la = _input.LA(1);
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 3) | (1L << 4) | (1L << STRING) | (1L << DOUBLE) | (1L << NOT) | (1L << INT) | (1L << TRUE) | (1L << FALSE) | (1L << NULL) | (1L << MINUS) | (1L << IDENTIFIER))) != 0)) {
+				{
+				setState(116); argslist();
+				}
+			}
+
+			setState(119); match(1);
 			}
 		}
 		catch (RecognitionException re) {
@@ -716,27 +724,21 @@ public class ExprParser extends Parser {
 		ArgslistContext _localctx = new ArgslistContext(_ctx, getState());
 		enterRule(_localctx, 18, RULE_argslist);
 		try {
-			setState(125);
-			switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
+			setState(126);
+			switch ( getInterpreter().adaptivePredict(_input,11,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(119); expr(0);
-				setState(120); match(2);
-				setState(121); argslist();
+				setState(121); expr(0);
+				setState(122); match(2);
+				setState(123); argslist();
 				}
 				break;
 
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(123); expr(0);
-				}
-				break;
-
-			case 3:
-				enterOuterAlt(_localctx, 3);
-				{
+				setState(125); expr(0);
 				}
 				break;
 			}
@@ -773,7 +775,7 @@ public class ExprParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(127);
+			setState(128);
 			_la = _input.LA(1);
 			if ( !(_la==TRUE || _la==FALSE) ) {
 			_errHandler.recoverInline(this);
@@ -824,17 +826,17 @@ public class ExprParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\2\3\33\u0084\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b"+
+		"\2\3\33\u0085\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b"+
 		"\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\5\3"+
 		"!\n\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4"+
 		"\62\n\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
 		"\4\3\4\3\4\7\4F\n\4\f\4\16\4I\13\4\3\5\3\5\3\5\5\5N\n\5\3\5\3\5\3\5\7"+
 		"\5S\n\5\f\5\16\5V\13\5\3\6\3\6\3\6\3\6\3\6\5\6]\n\6\3\7\3\7\3\7\3\7\5"+
 		"\7c\n\7\3\7\3\7\3\7\3\7\5\7i\n\7\3\b\3\b\3\b\7\bn\n\b\f\b\16\bq\13\b\3"+
-		"\t\3\t\3\n\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13\3\13\3\13\5\13\u0080\n"+
-		"\13\3\f\3\f\3\f\2\r\2\4\6\b\n\f\16\20\22\24\26\2\4\4\22\22\27\27\3\20"+
-		"\21\u008f\2\30\3\2\2\2\4 \3\2\2\2\6\61\3\2\2\2\bM\3\2\2\2\n\\\3\2\2\2"+
-		"\f^\3\2\2\2\16j\3\2\2\2\20r\3\2\2\2\22t\3\2\2\2\24\177\3\2\2\2\26\u0081"+
+		"\t\3\t\3\n\3\n\3\n\5\nx\n\n\3\n\3\n\3\13\3\13\3\13\3\13\3\13\5\13\u0081"+
+		"\n\13\3\f\3\f\3\f\2\r\2\4\6\b\n\f\16\20\22\24\26\2\4\4\22\22\27\27\3\20"+
+		"\21\u0090\2\30\3\2\2\2\4 \3\2\2\2\6\61\3\2\2\2\bM\3\2\2\2\n\\\3\2\2\2"+
+		"\f^\3\2\2\2\16j\3\2\2\2\20r\3\2\2\2\22t\3\2\2\2\24\u0080\3\2\2\2\26\u0082"+
 		"\3\2\2\2\30\31\5\4\3\2\31\32\7\1\2\2\32\3\3\2\2\2\33\34\5\6\4\2\34\35"+
 		"\7\b\2\2\35\36\5\4\3\2\36!\3\2\2\2\37!\5\6\4\2 \33\3\2\2\2 \37\3\2\2\2"+
 		"!\5\3\2\2\2\"#\b\4\1\2#$\7\13\2\2$\62\5\6\4\2%&\7\24\2\2&\62\5\6\4\2\'"+
@@ -853,10 +855,10 @@ public class ExprParser extends Parser {
 		"\2bc\3\2\2\2cd\3\2\2\2de\7\27\2\2ef\7\25\2\2fi\7\27\2\2gi\7\22\2\2hb\3"+
 		"\2\2\2hg\3\2\2\2i\r\3\2\2\2jo\7\27\2\2kl\7\33\2\2ln\7\27\2\2mk\3\2\2\2"+
 		"nq\3\2\2\2om\3\2\2\2op\3\2\2\2p\17\3\2\2\2qo\3\2\2\2rs\t\2\2\2s\21\3\2"+
-		"\2\2tu\7\27\2\2uv\7\5\2\2vw\5\24\13\2wx\7\3\2\2x\23\3\2\2\2yz\5\6\4\2"+
-		"z{\7\4\2\2{|\5\24\13\2|\u0080\3\2\2\2}\u0080\5\6\4\2~\u0080\3\2\2\2\177"+
-		"y\3\2\2\2\177}\3\2\2\2\177~\3\2\2\2\u0080\25\3\2\2\2\u0081\u0082\t\3\2"+
-		"\2\u0082\27\3\2\2\2\r \61EGMT\\bho\177";
+		"\2\2tu\7\27\2\2uw\7\5\2\2vx\5\24\13\2wv\3\2\2\2wx\3\2\2\2xy\3\2\2\2yz"+
+		"\7\3\2\2z\23\3\2\2\2{|\5\6\4\2|}\7\4\2\2}~\5\24\13\2~\u0081\3\2\2\2\177"+
+		"\u0081\5\6\4\2\u0080{\3\2\2\2\u0080\177\3\2\2\2\u0081\25\3\2\2\2\u0082"+
+		"\u0083\t\3\2\2\u0083\27\3\2\2\2\16 \61EGMT\\bhow\u0080";
 	public static final ATN _ATN =
 		ATNSimulator.deserialize(_serializedATN.toCharArray());
 	static {

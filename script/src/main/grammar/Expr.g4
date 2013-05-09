@@ -29,10 +29,9 @@ resource: '@' (( pckg ':' )? type=IDENTIFIER '/' name=IDENTIFIER | NULL);
 pckg: IDENTIFIER ('.' IDENTIFIER)*;
 variable: IDENTIFIER
 	| NULL;
-call: IDENTIFIER '(' argslist ')';
+call: IDENTIFIER '(' argslist? ')';
 argslist: expr ',' argslist
-    | expr
-	| ;
+    | expr;
 bool: TRUE
 	| FALSE
 	;
