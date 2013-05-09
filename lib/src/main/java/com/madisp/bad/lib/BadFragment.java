@@ -3,12 +3,14 @@ package com.madisp.bad.lib;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.madisp.bad.eval.BadExecutionContext;
-import com.madisp.bad.expr.Expression;
+import com.madisp.bad.decor.CheckableDecorator;
+import com.madisp.bad.decor.EditTextDecorator;
+import com.madisp.bad.decor.ListViewDecorator;
+import com.madisp.bad.decor.TextViewDecorator;
+import com.madisp.bad.decor.ViewDecorator;
 import com.madisp.bad.expr.ExpressionFactory;
 
 /**
@@ -31,18 +33,17 @@ public abstract class BadFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		exec = new AndroidExecutionContext(activity, this);
-		// test our shiny grammar
-		long start = System.nanoTime();
-		Expression expr = exprFactory.buildExpression("true or false");
-		long mid = System.nanoTime();
-		boolean value = exec.converter().bool(expr.value(exec));
-		long end = System.nanoTime();
-		Log.d("BadLib", expr + " = " + value + ", parse bench: " + (mid - start) + "ns tree bench: " + (end - mid));
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		BadLayoutFactory factory = new BadLayoutFactory(getActivity(), inflater, exprFactory, exec);
+		// register standard decorators
+		factory.addDecorator(new CheckableDecorator(exec, exprFactory, getActivity()));
+		factory.addDecorator(new EditTextDecorator(exec, exprFactory, getActivity()));
+		factory.addDecorator(new TextViewDecorator(exec, exprFactory, getActivity()));
+		factory.addDecorator(new ViewDecorator(exec, exprFactory, getActivity()));
+		factory.addDecorator(new ListViewDecorator(exec, exprFactory, getActivity()));
 		return factory.getInflater().inflate(layout, null);
 	}
 }

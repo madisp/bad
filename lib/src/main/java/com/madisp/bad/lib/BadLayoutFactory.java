@@ -3,16 +3,10 @@ package com.madisp.bad.lib;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.madisp.bad.decor.BadDecorator;
-import com.madisp.bad.decor.CheckableDecorator;
-import com.madisp.bad.decor.EditTextDecorator;
-import com.madisp.bad.decor.ListViewDecorator;
-import com.madisp.bad.decor.TextViewDecorator;
-import com.madisp.bad.decor.ViewDecorator;
 import com.madisp.bad.eval.ExecutionContext;
 import com.madisp.bad.expr.ExpressionFactory;
 
@@ -35,13 +29,6 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 		this.expressionFactory = exprFactory;
 		this.exec = exec;
 		this.inflater.setFactory(this);
-
-		// register standard decorators
-		addDecorator(new CheckableDecorator(exec, exprFactory, context));
-		addDecorator(new EditTextDecorator(exec, exprFactory, context));
-		addDecorator(new TextViewDecorator(exec, exprFactory, context));
-		addDecorator(new ViewDecorator(exec, exprFactory, context));
-		addDecorator(new ListViewDecorator(exec, exprFactory, context));
 	}
 
 	public BadLayoutFactory cloneInExecutionContext(ExecutionContext newExec) {
@@ -73,11 +60,6 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 			} catch (ClassNotFoundException cnfe) {
 				return null;
 			}
-		}
-		Log.d("BadLib", "Inflated " + v.getClass().getName());
-		Log.d("BadLib", "--- attrs ---");
-		for (int i = 0; i < attrs.getAttributeCount(); i++) {
-			Log.d("BadLib", attrs.getAttributeNameResource(i) + "/" + attrs.getAttributeName(i) + " = " + attrs.getAttributeValue(i));
 		}
 		/* magic happens here */
 		TypedValue out = new TypedValue();

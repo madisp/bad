@@ -47,34 +47,6 @@ public class BadExecutionContext implements ExecutionContext {
 		return 0;
 	}
 
-//	public BadVar getBadVar(String identifier) {
-//		BadVar bv;
-//		if ((bv = internalVars.get(identifier)) != null) {
-//			return bv;
-//		}
-//		for (Field f : base.getClass().getDeclaredFields()) {
-//			if (f.getName().equals(identifier)) {
-//				try {
-//					Object o = f.get(base);
-//					if (o instanceof BadVar) {
-//						// automatically box out of badvars
-//						internalVars.put(identifier, (BadVar)o);
-//						return ((BadVar)o);
-//					}
-//					// warn that obj isn't badvar
-//				} catch (Exception e) {
-//					// warn that obj isn't accessible
-//					e.printStackTrace();
-//				}
-//				break;
-//			}
-//		}
-//		// create a new badvar
-//		bv = new BadVar();
-//		internalVars.put(identifier, bv);
-//		return bv;
-//	}
-
 	private BadVar getBadVar(Object base, String identifier) {
 		BadVar bv;
 		VarKey key = new VarKey(base, identifier);
@@ -236,6 +208,4 @@ public class BadExecutionContext implements ExecutionContext {
 			return result;
 		}
 	}
-
-
 }
