@@ -7,8 +7,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import com.madisp.bad.decor.BadDecorator;
-import com.madisp.bad.eval.ExecutionContext;
-import com.madisp.bad.expr.ExpressionFactory;
+import com.madisp.bad.eval.BadScope;
+import com.madisp.bad.eval.Scope;
 
 import java.util.ArrayList;
 
@@ -16,23 +16,15 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 	private LayoutInflater inflater;
 	private LayoutInflater.Factory wrapped;
 
-	private ExecutionContext exec;
-	private Context context;
-	private ExpressionFactory expressionFactory;
+	private Scope scope;
 
 	private ArrayList<BadDecorator> decorators = new ArrayList<BadDecorator>(50);
 
-	public BadLayoutFactory(Context context, LayoutInflater inflater, ExpressionFactory exprFactory, ExecutionContext exec) {
-		this.context = context;
+	public BadLayoutFactory(LayoutInflater inflater, Scope rootScope) {
 		this.wrapped = inflater.getFactory();
-		this.inflater = inflater.cloneInContext(context);
-		this.expressionFactory = exprFactory;
-		this.exec = exec;
+		this.inflater = inflater.cloneInContext(inflater.getContext());
+		this.scope = rootScope;
 		this.inflater.setFactory(this);
-	}
-
-	public BadLayoutFactory cloneInExecutionContext(ExecutionContext newExec) {
-		return new BadLayoutFactory(context, (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE), expressionFactory, newExec);
 	}
 
 	public LayoutInflater getInflater() {
@@ -41,6 +33,16 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 
 	public void addDecorator(BadDecorator decor) {
 		decorators.add(decor);
+	}
+
+	public void pushScope(Object base) {
+		scope = new BadScope(scope, base);
+	}
+
+	public void popScope() {
+		if (scope != null) {
+			scope = scope.getParent();
+		}
 	}
 
 	@Override @SuppressWarnings("unchecked")
@@ -70,13 +72,17 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 				for (int i = 0; i < arr.length(); i++) {
 					if (arr.hasValue(i)) {
 						arr.getValue(i, out);
-						decor.decorate(attrKeys[i], out, v);
+						decor.decorate(curScope(), attrKeys[i], out, v);
 					}
 				}
-				decor.apply(v, this);
+				decor.apply(curScope(), v, this);
 			}
 		}
-		v.setTag(R.id.tagExecContext, exec);
+		v.setTag(R.id.tagExecContext, curScope());
 		return v;
+	}
+
+	private Scope curScope() {
+		return scope;
 	}
 }

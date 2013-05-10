@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class DotOperatorTest extends ExpressionTestCase {
 	@Test
 	public void testDeepIdentifiers() throws Exception {
-		bec.rebase(new BaseA());
+		scope = new BadScope(scope, new BaseA());
 
 		// test deep vars
 		assertEquals("asd", eval("a"));

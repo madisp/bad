@@ -1,6 +1,7 @@
 package com.madisp.bad.expr;
 
-import com.madisp.bad.eval.ExecutionContext;
+import com.madisp.bad.eval.BadConverter;
+import com.madisp.bad.eval.Scope;
 import com.madisp.bad.eval.Watcher;
 
 /**
@@ -17,12 +18,12 @@ public class UnaryMinusExpression implements Expression {
 	}
 
 	@Override
-	public Object value(ExecutionContext ctx) {
-		return -ctx.converter().integer(expr.value(ctx));
+	public Object value(Scope scope) {
+		return -BadConverter.integer(expr.value(scope));
 	}
 
 	@Override
-	public void addWatcher(ExecutionContext ctx, Watcher w) {
-		expr.addWatcher(ctx, w);
+	public void addWatcher(Scope scope, Watcher w) {
+		expr.addWatcher(scope, w);
 	}
 }

@@ -112,10 +112,9 @@ public class ExpressionFactory extends ExprBaseVisitor<Expression> {
 	@Override
 	public Expression visitResource(ExprParser.ResourceContext ctx) {
 		if (ctx.NULL() != null) {
-			// null resources
-			return new ResourceExpression();
+			return new ConstantExpression(0);
 		} else {
-			return new ResourceExpression(ctx.getText().substring(1).trim());
+			return new MethodExpression("getResourceId", new ConstantExpression(ctx.getText().substring(1).trim()));
 		}
 	}
 

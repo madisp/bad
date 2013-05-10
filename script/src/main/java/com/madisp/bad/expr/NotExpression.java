@@ -1,6 +1,7 @@
 package com.madisp.bad.expr;
 
-import com.madisp.bad.eval.ExecutionContext;
+import com.madisp.bad.eval.BadConverter;
+import com.madisp.bad.eval.Scope;
 import com.madisp.bad.eval.Watcher;
 
 /**
@@ -16,19 +17,12 @@ public class NotExpression implements Expression {
 	}
 
 	@Override
-	public Object value(ExecutionContext ctx) {
-		return !ctx.converter().bool(expr.value(ctx));
+	public Object value(Scope scope) {
+		return !BadConverter.bool(expr.value(scope));
 	}
 
 	@Override
-	public String toString() {
-		return "NotExpression{" +
-				"script=" + expr +
-				'}';
-	}
-
-	@Override
-	public void addWatcher(ExecutionContext ctx, Watcher w) {
-		expr.addWatcher(ctx, w);
+	public void addWatcher(Scope scope, Watcher w) {
+		expr.addWatcher(scope, w);
 	}
 }

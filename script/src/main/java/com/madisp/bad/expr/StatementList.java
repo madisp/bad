@@ -1,9 +1,7 @@
 package com.madisp.bad.expr;
 
-import com.madisp.bad.eval.ExecutionContext;
+import com.madisp.bad.eval.Scope;
 import com.madisp.bad.eval.Watcher;
-
-import java.util.Arrays;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,25 +17,18 @@ public class StatementList implements Expression {
 	}
 
 	@Override
-	public Object value(ExecutionContext ctx) {
+	public Object value(Scope scope) {
 		Object value = null;
 		for (Expression e : expressions) {
-			value = e.value(ctx); // don't care about value
+			value = e.value(scope); // don't care about value
 		}
 		return value;
 	}
 
 	@Override
-	public String toString() {
-		return "StatementList{" +
-				"expressions=" + (expressions == null ? null : Arrays.asList(expressions)) +
-				'}';
-	}
-
-	@Override
-	public void addWatcher(ExecutionContext ctx, Watcher w) {
+	public void addWatcher(Scope scope, Watcher w) {
 		for (Expression e : expressions) {
-			e.addWatcher(ctx, w);
+			e.addWatcher(scope, w);
 		}
 	}
 }

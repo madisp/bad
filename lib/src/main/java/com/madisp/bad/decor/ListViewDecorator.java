@@ -1,13 +1,13 @@
 package com.madisp.bad.decor;
 
-import android.content.Context;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import com.madisp.bad.eval.BadConverter;
 import com.madisp.bad.eval.BadVar;
-import com.madisp.bad.eval.ExecutionContext;
+import com.madisp.bad.eval.Scope;
 import com.madisp.bad.eval.Watcher;
 import com.madisp.bad.expr.Expression;
 import com.madisp.bad.expr.ExpressionFactory;
@@ -25,8 +25,8 @@ public class ListViewDecorator extends BaseDecorator<ListView> {
 	private int layout = -1;
 	private String itemsExpr = "";
 
-	public ListViewDecorator(ExecutionContext exec, ExpressionFactory expressionFactory, Context context) {
-		super(exec, expressionFactory, context);
+	public ListViewDecorator(ExpressionFactory expressionFactory) {
+		super(expressionFactory);
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class ListViewDecorator extends BaseDecorator<ListView> {
 	}
 
 	@Override
-	public void decorate(int attr, TypedValue tv, ListView view) {
+	public void decorate(final Scope scope, final int attr, final TypedValue tv, final ListView view) {
 		if (attr == R.attr.itemLayout) {
 			layout = tv.resourceId;
 		} else if (attr == R.attr.items) {
@@ -45,22 +45,22 @@ public class ListViewDecorator extends BaseDecorator<ListView> {
 			view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					((BadVar) exec.getVar("$item")).set(parent.getItemAtPosition(position));
-					expr.value(exec); // don't care about return
+					((BadVar) scope.getVar(null, "$item")).set(parent.getItemAtPosition(position));
+					expr.value(scope); // don't care about return
 				}
 			});
 		}
 	}
 
 	@Override
-	public void apply(ListView view, BadLayoutFactory layoutFactory) {
+	public void apply(final Scope scope, final ListView view, final BadLayoutFactory layoutFactory) {
 		if (layout != -1 && !TextUtils.isEmpty(itemsExpr)) {
 			final Expression expr = expressionFactory.buildExpression(itemsExpr);
-			final BadAdapter adapter = new BadAdapter(layout, layoutFactory, exec.converter().list(expr.value(exec)));
+			final BadAdapter adapter = new BadAdapter(layout, layoutFactory, BadConverter.list(expr.value(scope)));
 			view.setAdapter(adapter);
-			expr.addWatcher(exec, new Watcher() {
+			expr.addWatcher(scope, new Watcher() {
 				@Override
-				public void fire(ExecutionContext exec) {
+				public void fire(Scope scope) {
 					adapter.notifyDataSetChanged();
 				}
 			});

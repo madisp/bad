@@ -14,7 +14,7 @@ public class MethodTest extends ExpressionTestCase{
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		bec.rebase(this);
+		scope = new BadScope(scope, this);
 	}
 
 	@Test

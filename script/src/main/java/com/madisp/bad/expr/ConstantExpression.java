@@ -1,6 +1,6 @@
 package com.madisp.bad.expr;
 
-import com.madisp.bad.eval.ExecutionContext;
+import com.madisp.bad.eval.Scope;
 import com.madisp.bad.eval.Watcher;
 
 /**
@@ -16,18 +16,11 @@ public class ConstantExpression implements Expression {
 	}
 
 	@Override
-	public Object value(ExecutionContext ctx) {
+	public Object value(Scope scope) {
 		return value;
 	}
 
 	@Override
-	public String toString() {
-		return "ConstantExpression{" +
-				"value=" + value +
-				'}';
-	}
-
-	@Override
-	public void addWatcher(ExecutionContext ctx, Watcher w) {
+	public void addWatcher(Scope scope, Watcher w) {
 	}
 }

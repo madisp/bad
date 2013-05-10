@@ -1,6 +1,7 @@
 package com.madisp.bad.expr;
 
-import com.madisp.bad.eval.ExecutionContext;
+import com.madisp.bad.eval.BadConverter;
+import com.madisp.bad.eval.Scope;
 import com.madisp.bad.eval.Watcher;
 
 /**
@@ -19,19 +20,19 @@ public class PlusExpression implements Expression {
 	}
 
 	@Override
-	public Object value(ExecutionContext ctx) {
-		Object leftVal = ctx.converter().object(left.value(ctx));
-		Object rightVal = ctx.converter().object(right.value(ctx));
+	public Object value(Scope scope) {
+		Object leftVal = BadConverter.object(left.value(scope));
+		Object rightVal = BadConverter.object(right.value(scope));
 		if (leftVal instanceof Integer && rightVal instanceof Integer) {
 			return (Integer)leftVal + (Integer)rightVal;
 		} else {
-			return ctx.converter().string(leftVal) + ctx.converter().string(rightVal);
+			return BadConverter.string(leftVal) + BadConverter.string(rightVal);
 		}
 	}
 
 	@Override
-	public void addWatcher(ExecutionContext ctx, Watcher w) {
-		left.addWatcher(ctx, w);
-		right.addWatcher(ctx, w);
+	public void addWatcher(Scope scope, Watcher w) {
+		left.addWatcher(scope, w);
+		right.addWatcher(scope, w);
 	}
 }

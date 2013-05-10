@@ -1,9 +1,8 @@
 package com.madisp.bad.expr;
 
-import com.madisp.bad.eval.ExecutionContext;
+import com.madisp.bad.eval.BadConverter;
+import com.madisp.bad.eval.Scope;
 import com.madisp.bad.eval.Watcher;
-
-import java.util.Arrays;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,35 +20,26 @@ public class MethodExpression extends BasableExpression {
 	}
 
 	@Override
-	public Object value(ExecutionContext ctx) {
+	public Object value(Scope scope) {
 		Object[] argvalues = new Object[args.length];
 		for (int i = 0; i < argvalues.length; i++) {
-			argvalues[i] = ctx.converter().object(args[i].value(ctx));
+			argvalues[i] = BadConverter.object(args[i].value(scope));
 		}
 		if (!hasBase()) {
-			return ctx.callMethod(m, argvalues);
+			return scope.callMethod(null, m, argvalues);
 		}
-		Object base = getBase(ctx);
+		Object base = getBase(scope);
 		if (base != null) {
-			return ctx.callMethod(base, m, argvalues);
+			return scope.callMethod(base, m, argvalues);
 		}
 		return null;
 	}
 
 	@Override
-	public String toString() {
-		return "MethodExpression{" +
-				"base=" + getBaseExpr() +
-				", m=" + m +
-				", args=" + (args == null ? null : Arrays.asList(args)) +
-				'}';
-	}
-
-	@Override
-	public void addWatcher(ExecutionContext ctx, Watcher w) {
-		super.addWatcher(ctx, w);
+	public void addWatcher(Scope scope, Watcher w) {
+		super.addWatcher(scope, w);
 		for (Expression arg : args) {
-			arg.addWatcher(ctx, w);
+			arg.addWatcher(scope, w);
 		}
 	}
 }

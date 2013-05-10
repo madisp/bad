@@ -1,6 +1,7 @@
 package com.madisp.bad.expr;
 
-import com.madisp.bad.eval.ExecutionContext;
+import com.madisp.bad.eval.BadConverter;
+import com.madisp.bad.eval.Scope;
 import com.madisp.bad.eval.Watcher;
 
 /**
@@ -18,21 +19,13 @@ public class AndExpression implements Expression {
 	}
 
 	@Override
-	public Object value(ExecutionContext ctx) {
-		return ctx.converter().bool(left.value(ctx)) && ctx.converter().bool(right.value(ctx));
+	public Object value(Scope scope) {
+		return BadConverter.bool(left.value(scope)) && BadConverter.bool(right.value(scope));
 	}
 
 	@Override
-	public String toString() {
-		return "AndExpression{" +
-				"left=" + left +
-				", right=" + right +
-				'}';
-	}
-
-	@Override
-	public void addWatcher(ExecutionContext ctx, Watcher w) {
-		left.addWatcher(ctx, w);
-		right.addWatcher(ctx, w);
+	public void addWatcher(Scope scope, Watcher w) {
+		left.addWatcher(scope, w);
+		right.addWatcher(scope, w);
 	}
 }

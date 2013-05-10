@@ -11,10 +11,8 @@ import java.util.List;
  * Date: 5/4/13
  * Time: 6:41 PM
  */
-public class BadConverter implements Converter {
-
-	@Override
-	public boolean bool(Object var) {
+public class BadConverter {
+	public static boolean bool(Object var) {
 		var = object(var);
 		if (var == null) {
 			return false;
@@ -28,22 +26,19 @@ public class BadConverter implements Converter {
 		return true;
 	}
 
-	@Override
-	public String string(Object var) {
+	public static String string(Object var) {
 		var = object(var);
 		return var == null ? null : var.toString();
 	}
 
-	@Override
-	public Object object(Object var) {
+	public static Object object(Object var) {
 		if (var instanceof BadVar) {
 			return ((BadVar) var).get();
 		}
 		return var;
 	}
 
-	@Override
-	public List list(Object var) {
+	public static List list(Object var) {
 		var = object(var);
 		if (var instanceof List) {
 			return (List)var;
@@ -55,8 +50,7 @@ public class BadConverter implements Converter {
 		return null;
 	}
 
-	@Override
-	public int integer(Object var) {
+	public static int integer(Object var) {
 		if (var instanceof Integer) {
 			return (Integer)var;
 		} else if (var instanceof String) {

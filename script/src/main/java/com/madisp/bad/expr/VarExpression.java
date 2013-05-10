@@ -1,7 +1,7 @@
 package com.madisp.bad.expr;
 
 import com.madisp.bad.eval.BadVar;
-import com.madisp.bad.eval.ExecutionContext;
+import com.madisp.bad.eval.Scope;
 import com.madisp.bad.eval.Watcher;
 
 /**
@@ -18,16 +18,16 @@ public class VarExpression extends BasableExpression {
 	}
 
 	@Override
-	public Object value(ExecutionContext ctx) {
+	public Object value(Scope scope) {
 		if (var == null) {
 			return null;
 		}
 		if (!hasBase()) {
-			return ctx.getVar(var);
+			return scope.getVar(null, var);
 		}
-		Object base = getBase(ctx);
+		Object base = getBase(scope);
 		if (base != null) {
-			return ctx.getVar(base, var);
+			return scope.getVar(base, var);
 		}
 		return null;
 	}
@@ -36,25 +36,16 @@ public class VarExpression extends BasableExpression {
 		return var;
 	}
 
-	@Override
-	public String toString() {
-		return "VarExpression{" +
-				"base=" + getBaseExpr() +
-				", var=" + var +
-				'}';
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
-	public void addWatcher(final ExecutionContext ctx, final Watcher w) {
-		super.addWatcher(ctx, w);
-		ctx.addWatcher(w); // watch for context rebase ops
-		Object o = value(ctx);
+	public void addWatcher(final Scope scope, final Watcher w) {
+		super.addWatcher(scope, w);
+		Object o = value(scope);
 		if (o instanceof BadVar) {
 			((BadVar)o).addWatcher(new BadVar.BadWatcher() {
 				@Override
 				public void fire(BadVar var, boolean selfChange) {
-					w.fire(ctx);
+					w.fire(scope);
 				}
 			});
 		}

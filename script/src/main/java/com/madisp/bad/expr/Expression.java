@@ -1,6 +1,6 @@
 package com.madisp.bad.expr;
 
-import com.madisp.bad.eval.ExecutionContext;
+import com.madisp.bad.eval.Scope;
 import com.madisp.bad.eval.Watcher;
 
 /**
@@ -10,8 +10,7 @@ import com.madisp.bad.eval.Watcher;
  * Time: 1:57 PM
  */
 public interface Expression {
-	Object value(ExecutionContext ctx);
+	Object value(Scope scope);
 	String toString();
-	void addWatcher(ExecutionContext ctx, Watcher w);
-
+	void addWatcher(Scope scope, Watcher w);
 }

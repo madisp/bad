@@ -1,13 +1,13 @@
 package com.madisp.bad.decor;
 
-import android.content.Context;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.madisp.bad.eval.BadConverter;
 import com.madisp.bad.eval.BadVar;
-import com.madisp.bad.eval.ExecutionContext;
+import com.madisp.bad.eval.Scope;
 import com.madisp.bad.eval.Watcher;
 import com.madisp.bad.expr.Expression;
 import com.madisp.bad.expr.ExpressionFactory;
@@ -21,8 +21,8 @@ import com.madisp.bad.lib.ui.BadTextWatcher;
  * Time: 1:50 PM
  */
 public class EditTextDecorator extends BaseDecorator<EditText> {
-	public EditTextDecorator(ExecutionContext exec, ExpressionFactory expressionFactory, Context context) {
-		super(exec, expressionFactory, context);
+	public EditTextDecorator(ExpressionFactory expressionFactory) {
+		super(expressionFactory);
 	}
 
 	@Override
@@ -31,16 +31,16 @@ public class EditTextDecorator extends BaseDecorator<EditText> {
 	}
 
 	@Override
-	public void decorate(final int attr, final TypedValue tv, final EditText view) {
+	public void decorate(final Scope scope, final int attr, final TypedValue tv, final EditText view) {
 		if (attr == R.attr.model) {
-			Object var = exec.getVar(tv.string.toString());
+			Object var = scope.getVar(null, tv.string.toString());
 			if (var instanceof BadVar) {
 				view.addTextChangedListener(new BadTextWatcher((BadVar<String>) var));
 				((BadVar) var).addWatcher(new BadVar.BadWatcher() {
 					@Override
 					public void fire(BadVar var, boolean selfChange) {
 						if (!selfChange) {
-							view.setText(exec.converter().string(var));
+							view.setText(BadConverter.string(var));
 						}
 					}
 				});
@@ -51,20 +51,20 @@ public class EditTextDecorator extends BaseDecorator<EditText> {
 				@Override
 				public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 					if (actionId == EditorInfo.IME_NULL && KeyEvent.ACTION_DOWN == event.getAction()) {
-						return exec.converter().bool(expr.value(exec));
+						return BadConverter.bool(expr.value(scope));
 					}
 					return false;
 				}
 			});
 		} else if (attr == R.attr.error) {
 			final Expression expr = expressionFactory.buildExpression(tv.string.toString());
-			expr.addWatcher(exec, new Watcher() {
+			expr.addWatcher(scope, new Watcher() {
 				@Override
-				public void fire(ExecutionContext exec) {
-					view.setError(exec.converter().string(expr.value(exec)));
+				public void fire(Scope scope) {
+					view.setError(BadConverter.string(expr.value(scope)));
 				}
 			});
-			view.setError(exec.converter().string(expr.value(exec)));
+			view.setError(BadConverter.string(expr.value(scope)));
 		}
 	}
 

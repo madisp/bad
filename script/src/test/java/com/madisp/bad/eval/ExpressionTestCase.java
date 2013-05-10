@@ -12,15 +12,15 @@ import org.junit.Before;
  */
 public abstract class ExpressionTestCase {
 	protected ExpressionFactory exprFactory = new ExpressionFactory();
-	protected BadExecutionContext bec;
+	protected Scope scope;
 
 	@Before
 	public void setUp() throws Exception {
-		bec = new BadExecutionContext(new Object()); // empty base
+		scope = new BadScope(null, new Object()); // empty base
 	}
 
 	protected Object eval(String expr) throws Exception {
-		return bec.converter().object(build(expr).value(bec));
+		return BadConverter.object(build(expr).value(scope));
 	}
 
 	protected Expression build(String expr) throws Exception {

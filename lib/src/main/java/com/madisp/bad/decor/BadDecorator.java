@@ -1,6 +1,7 @@
 package com.madisp.bad.decor;
 
 import android.util.TypedValue;
+import com.madisp.bad.eval.Scope;
 import com.madisp.bad.lib.BadLayoutFactory;
 
 /**
@@ -11,7 +12,7 @@ import com.madisp.bad.lib.BadLayoutFactory;
  */
 public interface BadDecorator<T> {
 	int[] attrs();
-	void decorate(int attr, TypedValue tv, T view);
-	void apply(T view, BadLayoutFactory layoutFactory);
+	void decorate(Scope scope, int attr, TypedValue tv, T view);
+	void apply(Scope scope, T view, BadLayoutFactory layoutFactory);
 	Class<T> clazz();
 }

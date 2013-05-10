@@ -1,6 +1,7 @@
 package com.madisp.bad.expr;
 
-import com.madisp.bad.eval.ExecutionContext;
+import com.madisp.bad.eval.BadConverter;
+import com.madisp.bad.eval.Scope;
 import com.madisp.bad.eval.Watcher;
 
 /**
@@ -19,15 +20,15 @@ public class AssignExpression implements Expression {
 	}
 
 	@Override
-	public Object value(ExecutionContext ctx) {
-		Object newValue = ctx.converter().object(expr.value(ctx));
-		ctx.setVar(var.getBase(ctx), var.getIdentifier(), newValue);
+	public Object value(Scope scope) {
+		Object newValue = BadConverter.object(expr.value(scope));
+		scope.setVar(var.getBase(scope), var.getIdentifier(), newValue);
 		return newValue;
 	}
 
 	@Override
-	public void addWatcher(ExecutionContext ctx, Watcher w) {
-		expr.addWatcher(ctx, w);
-		var.addWatcher(ctx, w);
+	public void addWatcher(Scope scope, Watcher w) {
+		expr.addWatcher(scope, w);
+		var.addWatcher(scope, w);
 	}
 }

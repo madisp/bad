@@ -1,7 +1,7 @@
 package com.madisp.bad.expr;
 
-import com.madisp.bad.eval.BadVar;
-import com.madisp.bad.eval.ExecutionContext;
+import com.madisp.bad.eval.BadConverter;
+import com.madisp.bad.eval.Scope;
 import com.madisp.bad.eval.Watcher;
 
 /**
@@ -22,9 +22,9 @@ public abstract class BasableExpression implements Expression {
 	}
 
 	@Override
-	public void addWatcher(ExecutionContext ctx, Watcher w) {
+	public void addWatcher(Scope scope, Watcher w) {
 		if (hasBase()) {
-			base.addWatcher(ctx, w);
+			base.addWatcher(scope, w);
 		}
 	}
 
@@ -32,13 +32,9 @@ public abstract class BasableExpression implements Expression {
 		return base != null;
 	}
 
-	protected Object getBase(ExecutionContext ctx) {
+	protected Object getBase(Scope scope) {
 		if (base != null) {
-			Object obj = base.value(ctx);
-			if (obj instanceof BadVar) {
-				return ((BadVar)obj).get();
-			}
-			return obj;
+			return BadConverter.object(base.value(scope));
 		}
 		return null;
 	}

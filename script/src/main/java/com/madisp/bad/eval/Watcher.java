@@ -8,5 +8,5 @@ package com.madisp.bad.eval;
 * To change this template use File | Settings | File Templates.
 */
 public interface Watcher {
-	void fire(ExecutionContext exec);
+	void fire(Scope scope);
 }

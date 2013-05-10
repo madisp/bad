@@ -3,7 +3,7 @@ package com.madisp.bad.lib.ui;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import com.madisp.bad.eval.BadExecutionContext;
+import com.madisp.bad.eval.Scope;
 import com.madisp.bad.lib.BadLayoutFactory;
 import com.madisp.bad.lib.R;
 
@@ -45,12 +45,11 @@ public class BadAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Object o = getItem(position);
 		if (convertView == null) {
-			BadExecutionContext ctx = new BadExecutionContext(o);
-			convertView = fact.cloneInExecutionContext(ctx).getInflater().inflate(layout, null);
-			convertView.setTag(R.id.tagExecContext, ctx);
-		} else {
-			((BadExecutionContext) convertView.getTag(R.id.tagExecContext)).rebase(o);
+			fact.pushScope(o);
+			convertView = fact.getInflater().inflate(layout, null);
+			fact.popScope();
 		}
+		((Scope) convertView.getTag(R.id.tagExecContext)).digest();
 		return convertView;
 	}
 }

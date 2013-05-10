@@ -1,6 +1,7 @@
 package com.madisp.bad.expr;
 
-import com.madisp.bad.eval.ExecutionContext;
+import com.madisp.bad.eval.BadConverter;
+import com.madisp.bad.eval.Scope;
 import com.madisp.bad.eval.Watcher;
 
 /**
@@ -19,13 +20,13 @@ public class DivisionExpression implements Expression {
 	}
 
 	@Override
-	public Object value(ExecutionContext ctx) {
-		return ctx.converter().integer(left.value(ctx)) / ctx.converter().integer(right.value(ctx));
+	public Object value(Scope scope) {
+		return BadConverter.integer(left.value(scope)) / BadConverter.integer(right.value(scope));
 	}
 
 	@Override
-	public void addWatcher(ExecutionContext ctx, Watcher w) {
-		left.addWatcher(ctx, w);
-		right.addWatcher(ctx, w);
+	public void addWatcher(Scope scope, Watcher w) {
+		left.addWatcher(scope, w);
+		right.addWatcher(scope, w);
 	}
 }
