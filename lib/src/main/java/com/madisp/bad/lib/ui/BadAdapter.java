@@ -3,7 +3,6 @@ package com.madisp.bad.lib.ui;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import com.madisp.bad.eval.BadScope;
 import com.madisp.bad.eval.Scope;
 import com.madisp.bad.lib.BadLayoutFactory;
 import com.madisp.bad.lib.R;
