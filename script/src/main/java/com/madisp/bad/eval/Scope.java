@@ -12,5 +12,6 @@ public interface Scope {
 	boolean hasVar(Object base, String identifier);
 	Object callMethod(Object base, String name, Object... args);
 	Scope getParent();
-	void digest();
+	void rebase(Object newBase);
+	void addWatcher(Watcher w);
 }

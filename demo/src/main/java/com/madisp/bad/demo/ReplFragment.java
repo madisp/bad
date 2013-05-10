@@ -41,8 +41,8 @@ public class ReplFragment extends BadFragment {
 	public void run(String script) {
 		if (!TextUtils.isEmpty(script)) {
 			Expression expr = factory.buildExpression(script);
-			Log.d("BadDemo", expr.toString());
-			log.get().add(BadConverter.string(expr.value(getScope())));
+			Object value = expr.value(getScope());
+			log.get().add(BadConverter.string(value));
 		}
 	}
 }

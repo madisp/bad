@@ -49,7 +49,7 @@ public class BadAdapter extends BaseAdapter {
 			convertView = fact.getInflater().inflate(layout, null);
 			fact.popScope();
 		}
-		((Scope) convertView.getTag(R.id.tagExecContext)).digest();
+		((Scope) convertView.getTag(R.id.tagExecContext)).rebase(o);
 		return convertView;
 	}
 }

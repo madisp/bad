@@ -63,15 +63,16 @@ public class BadScope implements Scope {
 
 	@Override
 	public Object callMethod(Object base, String name, Object... args) {
-		if (base == null) {
-			base = this.base;
+		Object mBase = base;
+		if (mBase == null) {
+			mBase = this.base;
 		}
-		Method m = getMethodBySignature(base, name, args);
+		Method m = getMethodBySignature(mBase, name, args);
 		if (m == null && parent != null) {
 			return parent.callMethod(base, name, args);
 		} else if (m != null) {
 			try {
-				return m.invoke(base, args);
+				return m.invoke(mBase, args);
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
@@ -87,12 +88,14 @@ public class BadScope implements Scope {
 	}
 
 	@Override
-	public void digest() {
+	public void rebase(Object newBase) {
+		base = newBase;
 		for (Watcher w : watchmen) {
 			w.fire(this);
 		}
 	}
 
+	@Override
 	public void addWatcher(Watcher w) {
 		this.watchmen.add(w);
 	}
@@ -130,11 +133,11 @@ public class BadScope implements Scope {
 	}
 
 	private Object getVarImpl(Object base, String var) {
-		if ("this".equals(var)) {
-			return base;
-		}
 		if (base == null) {
 			base = this.base;
+		}
+		if ("this".equals(var)) {
+			return base;
 		}
 		BadVar bv = getBadVar(base, var);
 		if (bv != null) {

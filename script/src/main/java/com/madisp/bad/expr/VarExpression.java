@@ -40,6 +40,7 @@ public class VarExpression extends BasableExpression {
 	@Override
 	public void addWatcher(final Scope scope, final Watcher w) {
 		super.addWatcher(scope, w);
+		scope.addWatcher(w);
 		Object o = value(scope);
 		if (o instanceof BadVar) {
 			((BadVar)o).addWatcher(new BadVar.BadWatcher() {
