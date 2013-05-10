@@ -3,6 +3,7 @@ package com.madisp.bad.lib.ui;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import com.madisp.bad.eval.BadScope;
 import com.madisp.bad.eval.Scope;
 import com.madisp.bad.lib.BadLayoutFactory;
 import com.madisp.bad.lib.R;
@@ -48,8 +49,9 @@ public class BadAdapter extends BaseAdapter {
 			fact.pushScope(o);
 			convertView = fact.getInflater().inflate(layout, null);
 			fact.popScope();
+		} else {
+			((Scope) convertView.getTag(R.id.tagExecContext)).rebase(o);
 		}
-		((Scope) convertView.getTag(R.id.tagExecContext)).rebase(o);
 		return convertView;
 	}
 }

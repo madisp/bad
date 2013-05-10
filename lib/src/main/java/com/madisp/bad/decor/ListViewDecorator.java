@@ -45,7 +45,7 @@ public class ListViewDecorator extends BaseDecorator<ListView> {
 			view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					((BadVar) scope.getVar(null, "$item")).set(parent.getItemAtPosition(position));
+					Scope scope = (Scope) view.getTag(R.id.tagExecContext);
 					expr.value(scope); // don't care about return
 				}
 			});

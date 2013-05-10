@@ -32,6 +32,7 @@ public class BadScope implements Scope {
 	public void setVar(Object base, String var, Object newValue) {
 		if (hasVar(base, var)) {
 			setVarImpl(base, var, newValue);
+			return;
 		}
 		Scope scope = walkUp(base, var);
 		if (scope != null) {
