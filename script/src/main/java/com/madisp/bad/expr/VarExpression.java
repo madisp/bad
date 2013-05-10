@@ -40,15 +40,32 @@ public class VarExpression extends BasableExpression {
 	@Override
 	public void addWatcher(final Scope scope, final Watcher w) {
 		super.addWatcher(scope, w);
-		scope.addWatcher(w);
 		Object o = value(scope);
+		final BadVar.BadWatcher watcher = new BadVar.BadWatcher() {
+			@Override
+			public void fire(BadVar var, boolean selfChange) {
+				w.fire(scope);
+			}
+		};
 		if (o instanceof BadVar) {
-			((BadVar)o).addWatcher(new BadVar.BadWatcher() {
-				@Override
-				public void fire(BadVar var, boolean selfChange) {
-					w.fire(scope);
-				}
-			});
+			((BadVar)o).addWatcher(watcher);
 		}
+		scope.addOnRebasedListener(new Scope.OnScopeRebasedListener() {
+			@Override
+			public void onScopeDetached(Scope scope) {
+				Object o = value(scope);
+				if (o instanceof BadVar) {
+					((BadVar)o).removeWatcher(watcher);
+				}
+			}
+			@Override
+			public void onScopeAttached(Scope scope) {
+				Object o = value(scope);
+				if (o instanceof BadVar) {
+					((BadVar)o).addWatcher(watcher);
+				}
+				w.fire(scope);
+			}
+		});
 	}
 }

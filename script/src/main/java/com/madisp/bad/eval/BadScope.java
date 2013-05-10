@@ -20,7 +20,7 @@ public class BadScope implements Scope {
 	private Scope parent;
 	private Object base;
 
-	private List<Watcher> watchmen = new LinkedList<Watcher>();
+	private List<OnScopeRebasedListener> watchmen = new LinkedList<OnScopeRebasedListener>();
 	private Map<VarKey, BadVar> internalVars = new HashMap<VarKey, BadVar>();
 
 	public BadScope(Scope parent, Object base) {
@@ -90,15 +90,18 @@ public class BadScope implements Scope {
 
 	@Override
 	public void rebase(Object newBase) {
+		for (OnScopeRebasedListener w : watchmen) {
+			w.onScopeDetached(this);
+		}
 		base = newBase;
-		for (Watcher w : watchmen) {
-			w.fire(this);
+		for (OnScopeRebasedListener w : watchmen) {
+			w.onScopeAttached(this);
 		}
 	}
 
 	@Override
-	public void addWatcher(Watcher w) {
-		this.watchmen.add(w);
+	public void addOnRebasedListener(OnScopeRebasedListener listener) {
+		watchmen.add(listener);
 	}
 
 	private Scope walkUp(Object base, String var) {

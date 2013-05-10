@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.madisp.bad.eval.BadConverter;
-import com.madisp.bad.eval.BadVar;
 import com.madisp.bad.eval.Scope;
 import com.madisp.bad.eval.Watcher;
 import com.madisp.bad.expr.Expression;

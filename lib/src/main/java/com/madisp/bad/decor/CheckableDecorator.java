@@ -1,6 +1,5 @@
 package com.madisp.bad.decor;
 
-import android.content.Context;
 import android.util.TypedValue;
 import android.widget.Checkable;
 import com.madisp.bad.eval.BadConverter;

@@ -13,5 +13,11 @@ public interface Scope {
 	Object callMethod(Object base, String name, Object... args);
 	Scope getParent();
 	void rebase(Object newBase);
-	void addWatcher(Watcher w);
+
+	void addOnRebasedListener(OnScopeRebasedListener listener);
+
+	public interface OnScopeRebasedListener {
+		void onScopeDetached(Scope scope);
+		void onScopeAttached(Scope scope);
+	}
 }
