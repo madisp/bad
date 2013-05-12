@@ -1,5 +1,6 @@
 package com.madisp.bad.eval;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -61,7 +62,7 @@ public class BadConverter {
 	}
 
 	public static boolean isCollapsible(Class[] a, Class[] b) {
-		if (a.length > b.length || b.length == 0) {
+		if (a.length > b.length+1 || b.length == 0) {
 			return false;
 		}
 		for (int i = 0; i < a.length - 1; i++) {
@@ -91,11 +92,11 @@ public class BadConverter {
 			}
 		}
 		Object[] ret = new Object[dest.length];
-		Object[] lastArg = new Object[src.length - (dest.length-1)];
+		Object[] lastArg = (Object[])Array.newInstance(dest[dest.length - 1].getComponentType(), src.length - (dest.length-1));
 		for (int i = 0; i < lastArg.length; i++) {
 			lastArg[i] = src[dest.length - 1 + i];
 		}
-		for (int i = 0; i < src.length - 1; i++) {
+		for (int i = 0; i < ret.length - 1; i++) {
 			ret[i] = src[i];
 		}
 		ret[ret.length - 1] = lastArg;

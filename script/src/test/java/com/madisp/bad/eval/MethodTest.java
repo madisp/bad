@@ -31,6 +31,7 @@ public class MethodTest extends ExpressionTestCase{
 	@Test
 	public void testVarArgs() throws Exception {
 		assertEquals("2", eval("fmt('%d', 2)"));
+		assertEquals("asdf", eval("fmt('asdf')"));
 	}
 
 	public String fmt(String formatString, Object... args) {

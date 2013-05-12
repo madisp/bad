@@ -200,7 +200,7 @@ public class BadScope implements Scope {
 		for (Method m : base.getClass().getMethods()) {
 			if (m.getName().equals(name)) {
 				Class<?>[] paramTypes = m.getParameterTypes();
-				if (paramTypes.length <= paramClasses.length && isCollapsible(paramTypes, paramClasses)) {
+				if (isCollapsible(paramTypes, paramClasses)) {
 					return m;
 				} else if (areAssignableFrom(paramTypes, paramClasses)) {
 					// signature matches
