@@ -49,6 +49,10 @@ public abstract class BadFragment extends Fragment {
 		return new BadScope(new BadScope(null, new BadStdLib(getActivity())), this);
 	}
 
+	public void bg(final BlockExpression bgExpr) {
+		bg(bgExpr, null);
+	}
+
 	public void bg(final BlockExpression bgExpr, final BlockExpression fgExpr) {
 		// it's a possible leak
 		bg.post(new Runnable() {
@@ -65,12 +69,14 @@ public abstract class BadFragment extends Fragment {
 						});
 					}
 				});
-				fg.post(new Runnable() {
-					@Override
-					public void run() {
-						fgExpr.yield(getScope());
-					}
-				});
+				if (fgExpr != null) {
+					fg.post(new Runnable() {
+						@Override
+						public void run() {
+							fgExpr.yield(getScope());
+						}
+					});
+				}
 			}
 		});
 	}
