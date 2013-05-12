@@ -12,6 +12,7 @@ expr: NOT center=expr
 	| left=expr AND right=expr
 	| left=expr OR right=expr
 	| '(' center=expr ')'
+	| '{' ('|' varlist '|')? prog '}'
 	| leftVar=value ASSIGN right=expr
 	| value
 	| constant
@@ -30,6 +31,8 @@ pckg: IDENTIFIER ('.' IDENTIFIER)*;
 variable: IDENTIFIER
 	| NULL;
 call: IDENTIFIER '(' argslist? ')';
+varlist: IDENTIFIER ',' varlist
+	| IDENTIFIER;
 argslist: expr ',' argslist
     | expr;
 bool: TRUE

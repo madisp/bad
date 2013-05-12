@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import static com.madisp.bad.eval.BadConverter.areAssignableFrom;
+import static com.madisp.bad.eval.BadConverter.collapse;
+import static com.madisp.bad.eval.BadConverter.isCollapsible;
 
 /**
  * Created with IntelliJ IDEA.
@@ -56,7 +58,7 @@ public class BadScope implements Scope {
 
 	@Override
 	public boolean hasVar(Object base, String identifier) {
-		if ("this".equals(identifier)) {
+		if ("this".equals(identifier) || "$scope".equals(identifier)) {
 			return true;
 		}
 		return getBadVar(base, identifier) != null || getField(base, identifier) != null;
@@ -73,7 +75,7 @@ public class BadScope implements Scope {
 			return parent.callMethod(base, name, args);
 		} else if (m != null) {
 			try {
-				return m.invoke(mBase, args);
+				return m.invoke(mBase, collapse(m.getParameterTypes(), args));
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
@@ -86,6 +88,10 @@ public class BadScope implements Scope {
 	@Override
 	public Scope getParent() {
 		return parent;
+	}
+
+	public void setParent(Scope scope) {
+		this.parent = scope;
 	}
 
 	@Override
@@ -143,6 +149,9 @@ public class BadScope implements Scope {
 		if ("this".equals(var)) {
 			return base;
 		}
+		if ("$scope".equals(var)) {
+			return this;
+		}
 		BadVar bv = getBadVar(base, var);
 		if (bv != null) {
 			return bv;
@@ -190,7 +199,10 @@ public class BadScope implements Scope {
 		}
 		for (Method m : base.getClass().getMethods()) {
 			if (m.getName().equals(name)) {
-				if (areAssignableFrom(m.getParameterTypes(), paramClasses)) {
+				Class<?>[] paramTypes = m.getParameterTypes();
+				if (paramTypes.length <= paramClasses.length && isCollapsible(paramTypes, paramClasses)) {
+					return m;
+				} else if (areAssignableFrom(paramTypes, paramClasses)) {
 					// signature matches
 					return m;
 				}

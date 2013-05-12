@@ -56,7 +56,11 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 			// default inflater
 			try {
 				if (!name.contains(".")) {
-					name = "android.widget." + name;
+					if ("WebView".equals(name)) {
+						name = "android.webkit.WebView";
+					} else {
+						name = "android.widget." + name;
+					}
 				}
 				v = inflater.createView(name, null, attrs);
 			} catch (ClassNotFoundException cnfe) {
@@ -78,7 +82,7 @@ public class BadLayoutFactory implements LayoutInflater.Factory {
 				decor.apply(curScope(), v, this);
 			}
 		}
-		v.setTag(R.id.tagExecContext, curScope());
+		v.setTag(R.id.tagScope, curScope());
 		return v;
 	}
 

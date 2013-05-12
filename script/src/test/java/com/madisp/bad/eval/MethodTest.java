@@ -28,6 +28,15 @@ public class MethodTest extends ExpressionTestCase{
 		assertEquals(5, eval("addTwo(integer('3'))"));
 	}
 
+	@Test
+	public void testVarArgs() throws Exception {
+		assertEquals("2", eval("fmt('%d', 2)"));
+	}
+
+	public String fmt(String formatString, Object... args) {
+		return String.format(formatString, args);
+	}
+
 	// methods for tests
 	public int addTwo(int num) {
 		return 2 + num;

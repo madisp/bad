@@ -10,6 +10,7 @@ import com.madisp.bad.decor.EditTextDecorator;
 import com.madisp.bad.decor.ListViewDecorator;
 import com.madisp.bad.decor.TextViewDecorator;
 import com.madisp.bad.decor.ViewDecorator;
+import com.madisp.bad.decor.WebViewDecorator;
 import com.madisp.bad.eval.BadScope;
 import com.madisp.bad.eval.Scope;
 import com.madisp.bad.expr.ExpressionFactory;
@@ -47,6 +48,7 @@ public abstract class BadFragment extends Fragment {
 		factory.addDecorator(new TextViewDecorator(exprFactory));
 		factory.addDecorator(new ViewDecorator(exprFactory));
 		factory.addDecorator(new ListViewDecorator(exprFactory));
+		factory.addDecorator(new WebViewDecorator(exprFactory));
 		// hook to add more decorators before inflation
 		beforeInflate(factory);
 		return factory.getInflater().inflate(layout, null);

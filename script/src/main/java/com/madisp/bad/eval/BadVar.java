@@ -19,6 +19,10 @@ public class BadVar<T> {
 	public BadVar() {
 	}
 
+	public BadVar(T value) {
+		this.var = value;
+	}
+
 	public T get() {
 		return var;
 	}

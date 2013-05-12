@@ -6,6 +6,8 @@ import org.antlr.v4.runtime.Token;
 public interface ExprVisitor<T> extends ParseTreeVisitor<T> {
 	T visitCall(ExprParser.CallContext ctx);
 
+	T visitVarlist(ExprParser.VarlistContext ctx);
+
 	T visitProg(ExprParser.ProgContext ctx);
 
 	T visitConstant(ExprParser.ConstantContext ctx);

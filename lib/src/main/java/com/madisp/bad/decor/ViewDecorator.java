@@ -23,13 +23,13 @@ public class ViewDecorator extends BaseDecorator<View> {
 
 	@Override
 	public int[] attrs() {
-		return new int[] { R.attr.enabled, R.attr.click };
+		return new int[] { R.attr.enabled, R.attr.click, R.attr.visibility, R.attr.show };
 	}
 
 	@Override
 	public void decorate(final Scope scope, final int attr, final TypedValue tv, final View view) {
+		final Expression expr = buildExpr(tv);
 		if (attr == R.attr.click) {
-			final Expression expr = expressionFactory.buildExpression(tv.string.toString());
 			view.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -37,7 +37,6 @@ public class ViewDecorator extends BaseDecorator<View> {
 				}
 			});
 		} else if (attr == R.attr.enabled) {
-			final Expression expr = expressionFactory.buildExpression(tv.string.toString());
 			expr.addWatcher(scope, new Watcher() {
 				@Override
 				public void fire(Scope scope) {
@@ -45,6 +44,22 @@ public class ViewDecorator extends BaseDecorator<View> {
 				}
 			});
 			view.setEnabled(BadConverter.bool(expr.value(scope)));
+		} else if (attr == R.attr.show) {
+			expr.addWatcher(scope, new Watcher() {
+				@Override
+				public void fire(Scope scope) {
+					view.setVisibility(BadConverter.bool(expr.value(scope)) ? View.VISIBLE : View.GONE);
+				}
+			});
+			view.setVisibility(BadConverter.bool(expr.value(scope)) ? View.VISIBLE : View.GONE);
+		} else if (attr == R.attr.visibility) {
+			expr.addWatcher(scope, new Watcher() {
+				@Override
+				public void fire(Scope scope) {
+					view.setVisibility(BadConverter.integer(expr.value(scope)));
+				}
+			});
+			view.setVisibility(BadConverter.integer(expr.value(scope)));
 		}
 	}
 

@@ -51,12 +51,55 @@ public class BadConverter {
 	}
 
 	public static int integer(Object var) {
+		var = object(var);
 		if (var instanceof Integer) {
 			return (Integer)var;
 		} else if (var instanceof String) {
 			return Integer.valueOf((String)var);
 		}
 		return 0;
+	}
+
+	public static boolean isCollapsible(Class[] a, Class[] b) {
+		if (a.length > b.length || b.length == 0) {
+			return false;
+		}
+		for (int i = 0; i < a.length - 1; i++) {
+			if (!isAssignableFrom(a[i], b[i])) {
+				return false;
+			}
+		}
+		// is the last type an array type?
+		Class last = a[a.length - 1];
+		if (!last.isArray()) {
+			return false;
+		}
+		for (int i = a.length; i < b.length; i++) {
+			if (!isAssignableFrom(last.getComponentType(), b[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static Object[] collapse(Class[] dest, Object[] src) {
+		if (dest.length == src.length) {
+			if (dest.length == 0 || !dest[dest.length-1].isArray()) {
+				return src;
+			} else if (isAssignableFrom(dest[dest.length-1], src[src.length-1].getClass())) {
+				return src;
+			}
+		}
+		Object[] ret = new Object[dest.length];
+		Object[] lastArg = new Object[src.length - (dest.length-1)];
+		for (int i = 0; i < lastArg.length; i++) {
+			lastArg[i] = src[dest.length - 1 + i];
+		}
+		for (int i = 0; i < src.length - 1; i++) {
+			ret[i] = src[i];
+		}
+		ret[ret.length - 1] = lastArg;
+		return ret;
 	}
 
 	public static boolean areAssignableFrom(Class[] a, Class[] b) {

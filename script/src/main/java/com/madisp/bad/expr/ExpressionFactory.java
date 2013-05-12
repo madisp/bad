@@ -70,6 +70,15 @@ public class ExpressionFactory extends ExprBaseVisitor<Expression> {
 			return visitValue(ctx.value());
 		} else if (ctx.constant() != null) {
 			return visitConstant(ctx.constant());
+		} else if (ctx.prog() != null) {
+			// meta, this will return an expression containing an expression object :)
+			List<String> varList = new ArrayList<String>();
+			ExprParser.VarlistContext vars = ctx.varlist();
+			while (vars != null && vars.IDENTIFIER() != null) {
+				varList.add(vars.IDENTIFIER().toString());
+				vars = vars.varlist();
+			}
+			return new BlockExpression(visitProg(ctx.prog()), varList);
 		} else {
 			return visitExpr(ctx.center);
 		}
