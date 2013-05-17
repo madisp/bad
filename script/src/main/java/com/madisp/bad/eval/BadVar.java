@@ -28,27 +28,35 @@ public class BadVar<T> {
 	}
 
 	public void set(T value) {
-		set(value, false);
+		set(value, null);
 	}
 
-	public void set(T value, boolean selfChange) {
+	public void set(T value, BadWatcher origin) {
 		if (value instanceof List) {
 			value = (T)BadCollections.wrapList(this, (List)value);
 		} else if (value instanceof Collection) {
 			value = (T)BadCollections.wrapCollection(this, (Collection)value);
 		}
 		this.var = value;
-		dispatchFire(selfChange);
+		dispatchFire(origin);
 	}
 
-	public void dispatchFire(boolean selfChange) {
+	public void dispatchFire() {
+		dispatchFire(null);
+	}
+
+	public void dispatchFire(BadWatcher origin) {
 		for (BadWatcher w : watchers) {
-			w.fire(BadVar.this, selfChange);
+			if (origin != null && origin == w) {
+				continue;
+			}
+			w.fire(this);
 		}
 	}
 
 	public void addWatcher(BadWatcher<T> watcher) {
 		watchers.add(watcher);
+		watcher.fire(this);
 	}
 
 	public void removeWatcher(BadWatcher<T> watcher) {
@@ -56,6 +64,6 @@ public class BadVar<T> {
 	}
 
 	public interface BadWatcher<T> {
-		void fire(BadVar<T> var, boolean selfChange);
+		void fire(BadVar<T> var);
 	}
 }

@@ -43,7 +43,7 @@ public class VarExpression extends BasableExpression {
 		Object o = value(scope);
 		final BadVar.BadWatcher watcher = new BadVar.BadWatcher() {
 			@Override
-			public void fire(BadVar var, boolean selfChange) {
+			public void fire(BadVar var) {
 				w.fire(scope);
 			}
 		};

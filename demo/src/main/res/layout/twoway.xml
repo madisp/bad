@@ -7,6 +7,11 @@
               android:layout_height="match_parent"
               android:padding="16dp">
 
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="8dp"
+	    android:text="model" />
 	<EditText
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -14,6 +19,23 @@
 		android:hint="Type something"
 		bad:model="value"/>
 
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="8dp"
+		android:text="model" />
+	<EditText
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="8dp"
+		android:hint="Type something"
+		bad:model="value"/>
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="8dp"
+		android:text="text" />
 	<EditText
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"

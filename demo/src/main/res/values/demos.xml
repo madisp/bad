@@ -5,17 +5,20 @@
 		<item>LoginFragment</item>
 		<item>ShopFragment</item>
 		<item>ReplFragment</item>
+		<item>PersistFragment</item>
 	</string-array>
 	<string-array name="demoNames">
 		<item>Simple Binding</item>
 		<item>Login</item>
 		<item>Shopping List</item>
 		<item>REPL</item>
+		<item>Persistence</item>
 	</string-array>
 	<string-array name="demoDescs">
 		<item>Show off data-binding</item>
 		<item>Simple form validation</item>
 		<item>List with checkable elements</item>
 		<item>Scripting in action!</item>
+		<item>Storing simple primitives somewhere</item>
 	</string-array>
 </resources>

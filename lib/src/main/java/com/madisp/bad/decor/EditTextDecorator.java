@@ -35,15 +35,7 @@ public class EditTextDecorator extends BaseDecorator<EditText> {
 		if (attr == R.attr.model) {
 			Object var = scope.getVar(null, tv.string.toString());
 			if (var instanceof BadVar) {
-				view.addTextChangedListener(new BadTextWatcher((BadVar<String>) var));
-				((BadVar) var).addWatcher(new BadVar.BadWatcher() {
-					@Override
-					public void fire(BadVar var, boolean selfChange) {
-						if (!selfChange) {
-							view.setText(BadConverter.string(var));
-						}
-					}
-				});
+				view.addTextChangedListener(new BadTextWatcher(view, (BadVar<String>) var));
 			}
 		} else if (attr == R.attr.imeAction) {
 			final Expression expr = expressionFactory.buildExpression(tv.string.toString());

@@ -106,6 +106,11 @@ public class BadScope implements Scope {
 	}
 
 	@Override
+	public Object getBase() {
+		return base;
+	}
+
+	@Override
 	public void addOnRebasedListener(OnScopeRebasedListener listener) {
 		watchmen.add(listener);
 	}

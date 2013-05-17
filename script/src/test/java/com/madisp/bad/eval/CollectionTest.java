@@ -19,7 +19,7 @@ public class CollectionTest {
 		BadVar<List<String>> var = new BadVar<List<String>>();
 		var.addWatcher(new BadVar.BadWatcher<List<String>>() {
 			@Override
-			public void fire(BadVar<List<String>> var, boolean selfChange) {
+			public void fire(BadVar<List<String>> var) {
 				fires[0]++;
 			}
 		});

@@ -44,6 +44,11 @@ public class ScopeWrapper implements Scope {
 	}
 
 	@Override
+	public Object getBase() {
+		return scope.getBase();
+	}
+
+	@Override
 	public void addOnRebasedListener(OnScopeRebasedListener listener) {
 		scope.addOnRebasedListener(listener);
 	}

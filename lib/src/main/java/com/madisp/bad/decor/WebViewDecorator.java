@@ -8,7 +8,6 @@ import android.webkit.WebViewClient;
 import com.madisp.bad.eval.BadConverter;
 import com.madisp.bad.eval.BadVar;
 import com.madisp.bad.eval.Scope;
-import com.madisp.bad.eval.Watcher;
 import com.madisp.bad.expr.Expression;
 import com.madisp.bad.expr.ExpressionFactory;
 import com.madisp.bad.lib.R;
@@ -37,8 +36,8 @@ public class WebViewDecorator extends BaseDecorator<WebView> {
 				final BadVar<String> urlVar = (BadVar<String>)var;
 				urlVar.addWatcher(new BadVar.BadWatcher<String>() {
 					@Override
-					public void fire(BadVar<String> var, boolean selfChange) {
-						if (!selfChange && !TextUtils.isEmpty(var.get())) {
+					public void fire(BadVar<String> var) {
+						if (!TextUtils.isEmpty(var.get())) {
 							view.loadUrl(var.get());
 						}
 					}
@@ -46,7 +45,7 @@ public class WebViewDecorator extends BaseDecorator<WebView> {
 				view.setWebViewClient(new WebViewClient() {
 					@Override
 					public void onPageStarted(WebView view, String url, Bitmap favicon) {
-						urlVar.set(url, true);
+						urlVar.set(url);
 					}
 				});
 			}

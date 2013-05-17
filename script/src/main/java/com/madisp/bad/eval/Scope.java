@@ -13,6 +13,7 @@ public interface Scope {
 	Object callMethod(Object base, String name, Object... args);
 	Scope getParent();
 	void rebase(Object newBase);
+	Object getBase();
 
 	void addOnRebasedListener(OnScopeRebasedListener listener);
 
