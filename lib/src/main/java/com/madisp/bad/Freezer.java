@@ -8,6 +8,7 @@ import com.madisp.bad.eval.Scope;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -35,6 +36,10 @@ public class Freezer {
 			if (f.getType().equals(BadVar.class) && f.isAnnotationPresent(Persist.class)) {
 				for (Annotation a : f.getAnnotations()) {
 					if (a instanceof Persist) {
+						Class type = (Class) ((ParameterizedType) f.getGenericType()).getActualTypeArguments()[0];
+						if (!isPersistable(type)) {
+							continue;
+						}
 						String key = ((Persist)a).key();
 						if (TextUtils.isEmpty(key)) {
 							key = f.getName();
@@ -43,8 +48,8 @@ public class Freezer {
 						final String fkey = key;
 						try {
 							BadVar bv = (BadVar) f.get(scope.getBase());
-							bv.set(prefs.getString(key, ""));
-							prefs.registerOnSharedPreferenceChangeListener(new FrozenStringWatcher(bv, key));
+							bv.set(retrieve(prefs, key, type));
+							prefs.registerOnSharedPreferenceChangeListener(new FrozenStringWatcher(bv, key, type));
 						} catch (IllegalAccessException e) {
 							e.printStackTrace();
 						}
@@ -61,28 +66,57 @@ public class Freezer {
 		}
 	}
 
-	private boolean isPersistable(Type type) {
+	private boolean isPersistable(Class type) {
 		return (type.equals(Integer.class)) || (type.equals(Boolean.class)) || (type.equals(String.class));
 	}
 
 	public class FrozenStringWatcher implements SharedPreferences.OnSharedPreferenceChangeListener, BadVar.BadWatcher<String> {
-		private final BadVar<String> var;
+		private final BadVar var;
 		private final String key;
+		private final Class type;
 
-		public FrozenStringWatcher(BadVar<String> bv, String key) {
+		public FrozenStringWatcher(BadVar<String> bv, String key, Class type) {
 			this.key = key;
 			this.var = bv;
+			this.type = type;
 			bv.addWatcher(this);
 		}
 
 		@Override
 		public void fire(BadVar<String> var) {
-			prefs.edit().putString(key, (String)var.get()).apply();
+			store(prefs, key, var.get());
 		}
 
 		@Override
 		public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-			var.set(prefs.getString(key, ""), this);
+			if (this.key.equals(key)) {
+				var.set(retrieve(sharedPreferences, key, type), this);
+			}
 		}
+	}
+
+	private static void store(SharedPreferences prefs, String key, Object value) {
+		SharedPreferences.Editor editor = prefs.edit();
+		if (value == null) {
+			editor.remove(key);
+		} else if (value instanceof String) {
+			editor.putString(key, (String)value);
+		} else if (value instanceof Integer) {
+			editor.putInt(key, (Integer) value);
+		} else if (value instanceof Boolean) {
+			editor.putBoolean(key, (Boolean) value);
+		}
+		editor.apply();
+	}
+
+	private static Object retrieve(SharedPreferences prefs, String key, Class type) {
+		if (type.equals(String.class)) {
+			return prefs.getString(key, "");
+		} else if (type.equals(Integer.class)) {
+			return prefs.getInt(key, 0);
+		} else if (type.equals(Boolean.class)) {
+			return prefs.getBoolean(key, false);
+		}
+		return null;
 	}
 }
