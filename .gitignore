@@ -26,3 +26,6 @@ local.properties
 # Eclipse project files
 .classpath
 .project
+
+# the other demo project
+/tihane/
