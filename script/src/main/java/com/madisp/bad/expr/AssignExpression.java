@@ -29,6 +29,7 @@ public class AssignExpression implements Expression {
 	@Override
 	public void addWatcher(Scope scope, Watcher w) {
 		expr.addWatcher(scope, w);
-		var.addWatcher(scope, w);
+		// we don't need to watch var as it will trigger re-evaluation loop when this expression is watched
+//		var.addWatcher(scope, w);
 	}
 }
