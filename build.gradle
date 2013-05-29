@@ -6,11 +6,8 @@ buildscript {
 
 allprojects {
     buildscript {
-        project.group = "com.madisp"
-        project.version = System.getProperty("version", "")
-        if (project.version == null || project.version.equals("") || project.version.equals("null")) {
-            project.version = "0.0.1"
-        }
+        project.group = 'com.madisp'
+        project.version = '0.0.1'
     }
     repositories {
         mavenCentral()
