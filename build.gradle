@@ -4,6 +4,10 @@ buildscript {
     }
 }
 
+task wrapper(type: Wrapper) {
+	gradleVersion '1.11'
+}
+
 allprojects {
     buildscript {
         project.group = 'com.madisp'

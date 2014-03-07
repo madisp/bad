@@ -1,4 +1,4 @@
-// Generated from /home/madis/cryptodev/git/bad/script/src/main/grammar/Expr.g4 by ANTLR 4.0
+// Generated from /Users/madis/Code/github/bad/script/src/main/grammar/Expr.g4 by ANTLR 4.0
 package com.madisp.bad.parse;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
